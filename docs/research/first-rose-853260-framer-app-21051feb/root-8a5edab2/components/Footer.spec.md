@@ -58,6 +58,10 @@ footer  (#0d0d0f, padding 64px 60px 50px, flex column, center, gap 75px)
 
 ### Column link
 - `14px` / `16.8px` / weight `400` / color `rgb(147, 147, 147)`
+- **Hover: `#7138F2`.** The live anchors set
+  `--framer-link-hover-text-color: #7138f2` (and `--framer-link-text-color: gray`).
+  An earlier pass reported footer links as having no hover because it only looked for
+  component `:hover` rules; the colour lives in these Framer link custom properties.
 
 ### Social row
 - Size: `162 x 34`
@@ -84,8 +88,11 @@ sizes above without recolouring; verify against the screenshot.
 - display: `flex`, flex-direction: `row`, justify-content: `space-between`, align-items: `center`
 - Contains a single `219 x 17` text block (left-aligned by the space-between)
 
-### Copyright
-- `14px` / `16.8px` / weight `400` / color `rgb(147, 147, 147)`
+### Copyright — TWO-TONE
+- `14px` / `16.8px` / weight `400`
+- `Drommer 2026 ` is wrapped in a `<span>` forced to **`rgb(255, 255, 255)`**;
+  the trailing `Built for founders` inherits the grey **`rgb(147, 147, 147)`**.
+- Markup: `<span style="--framer-text-color: rgb(255,255,255)">Drommer 2026 </span> Built for founders`
 
 ## Text Content (verbatim)
 
@@ -120,10 +127,20 @@ correctly omitted.
 - `public/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/images/Dx3NDQRbBFXMEHBi12YiSiAcoOo.png`
 - Icons from `../shared/icons`: `DrommerWordmarkLarge`, `InstagramIcon`, `YouTubeIcon`, `LinkedInIcon`
 
-## Responsive Behavior
-- **Desktop (≥1440px):** wordmark + two link columns with a `349px` gap; social row centered; copyright below.
-- **Tablet (810–1439px):** the fixed `349px` gap cannot hold — switch to `space-between`
-  or a reduced gap so the columns stay on one row.
-- **Mobile (≤809px):** stack wordmark, then link columns (side by side or stacked), then
-  social row, then copyright.
-- Not visually confirmed at tablet/mobile — see the tooling note in `BEHAVIORS.md`.
+## Responsive Behavior — measured
+
+The top row (`.framer-cj70fk`) does **not** stay a row below desktop. Its responsive
+variants set `flex-direction: column; gap: 50px`, and the rail is `align-items: flex-start`,
+so everything stacks hard left:
+
+| Tier | Top row |
+| ---- | ------- |
+| **≥1440px** | `flex-direction: row`, `gap: 349px`, `align-items: flex-start` |
+| **<1440px** | `flex-direction: column`, **`gap: 50px`**, left-aligned |
+
+Measured at 958px: rail `align-items: flex-start`, `gap: 75px` between the three rows;
+top row `823 x 354` column with `gap: 50px`; social row `162 x 34` (so it sits flush left
+inside the flex-start rail, despite its own `justify-content: center`); copyright row
+`823 x 17`.
+
+Stacking order is wordmark → Company → Opportunities → socials → copyright.

@@ -220,3 +220,77 @@ unnoticed for a whole round, so it is worth treating as the top remaining risk: 
 be other sections that swap layout or copy below 1440px. The reliable way to check is to
 diff the page's compiled component source for conditionally-rendered blocks, as was done
 for Program Phases here.
+
+
+---
+
+# Round 3 — issues reported from the rendered build
+
+## 1. Program Phases 01 and 04 had no copy at desktop — DELIBERATE DEVIATION
+
+The live desktop stage genuinely omits phase 01's text and phase 04's body; that copy only
+exists in the section the site swaps in below 1440px. Showing it at desktop too was an
+explicit request, so the desktop stage now carries both, using the verbatim responsive copy.
+
+Placed in the stage's empty regions and verified free of collisions — every text block and
+node circle was measured inside the `1233 x 567` stage and checked pairwise:
+
+| Block | Box (L,T → R,B) |
+| ----- | --------------- |
+| `01` numeral | `0,0 → 66,72` |
+| `Founder Exploration` | `0,83 → 197,107` |
+| 01 body (`w-[240px]`) | `0,117 → 240,232` |
+| 04 body (`w-[274px]`) | `959,360 → 1233,475` |
+
+**Text-text overlaps: none. Text-node overlaps: none.**
+
+This is the one place the clone knowingly departs from the source, and it is marked as such
+in `ProgramPhases.tsx`.
+
+## 2. Mission "More about us" wrapped onto two lines
+
+The button is a fixed `132px` wide with `20px` horizontal padding, leaving 92px for a label
+that measures almost exactly that. Added `whitespace-nowrap` (plus `shrink-0`); the button
+still measures `132 x 34`, matching the original.
+
+## 3. Marquee labels rendered white instead of grey
+
+The label `<p>` really is `rgb(255, 255, 255)` — but its **wrapping `div` is
+`opacity: 0.5`**, which is what makes it read grey against the purple band. Reading `color`
+on the text node alone was misleading. The clone now wraps each label in `opacity-50`.
+
+## 4. Final CTA cards were cramped and colliding below 1440px
+
+The cards were switching to a side-by-side row at 810px. The live site keeps them
+**stacked until 1440px** (`.framer-axhh5c` is `flex-direction: column` for
+`810–1439.98px` and below). Side by side at tablet forced the headline onto three lines and
+pushed the button into the body copy.
+
+Corrected, along with the other tier differences measured at 958px: section padding
+`100px 40px`, card `justify-content: center` with `gap: 60px`, headline held at `60px/60px`.
+
+## 5. Footer
+
+Three separate defects:
+
+- **Links had no hover.** They do: the anchors set
+  `--framer-link-hover-text-color: #7138f2`, a different mechanism from the button
+  variants, which is why two earlier passes missed it.
+- **Copyright was uniformly grey.** It is two-tone — `Drommer 2026 ` is a `<span>` forced
+  to white, the trailing `Built for founders` inherits the grey.
+- **Layout did not stack.** The top row's responsive variants are
+  `flex-direction: column; gap: 50px`, and the rail is `align-items: flex-start`, so
+  wordmark / Company / Opportunities / socials / copyright all stack flush left. The social
+  row's own `justify-content: center` is inert inside a flex-start rail.
+
+## Also fixed
+
+`icons.tsx` emitted kebab-case `flood-opacity` and `color-interpolation-filters`, and the
+BuildFirstStartup card images passed intrinsic dimensions on a CSS-resized cover layer.
+
+## Method note
+
+Every value in this round came from the live site — the CSSOM's own media-query rules for
+the responsive tiers, the anchors' Framer link custom properties for the hover colour, and
+`getComputedStyle` including **ancestor opacity**, which is what the marquee defect turned
+on. Checking `color` without walking the opacity chain is not sufficient.

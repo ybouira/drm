@@ -60,7 +60,9 @@ div  (strip, 1692 x 52, overflow clip, purple gradient background)
 - line-height: `12px`
 - font-weight: `400`
 - letter-spacing: `normal`
-- color: `rgb(255, 255, 255)`
+- color: `rgb(255, 255, 255)` — **but the wrapping `div` is `opacity: 0.5`**, so the label
+  reads grey against the band. Reading `color` alone on the `<p>` is misleading; the
+  effective appearance is white at 50%.
 
 ## Ticker behavior — IT ANIMATES
 

@@ -28,8 +28,12 @@ function TickerGroup({ ariaHidden }: { ariaHidden: boolean }) {
           <li className="flex items-center">
             <span className="block h-[6px] w-[6px] rounded-[100px] bg-[#7138F2]" />
           </li>
-          <li className="whitespace-nowrap text-[10px] leading-[12px] font-normal text-white">
-            {label}
+          {/* The label is white but sits inside a wrapper at opacity 0.5 on the
+              live site, which is what makes it read grey against the band. */}
+          <li className="whitespace-nowrap opacity-50">
+            <span className="text-[10px] leading-[12px] font-normal text-white">
+              {label}
+            </span>
           </li>
         </Fragment>
       ))}

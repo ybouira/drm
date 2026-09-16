@@ -25,15 +25,34 @@ type Phase = {
 };
 
 /**
- * Measured from the live site. The leftmost node carries no numeral, title or
- * body, and phase 04 has a title but no body paragraph — reproduced as-is.
+ * Node and text positions are measured from the live desktop stage.
+ *
+ * DELIBERATE DEVIATION: the live site's desktop stage shows no text at all for
+ * phase 01 and no body for phase 04 — that copy only exists in the section it
+ * swaps in below 1440px. Showing it at desktop too was an explicit request, so
+ * the 01 block and the 04 body below carry the verbatim copy from that
+ * responsive section, placed in the stage's empty top-left and lower-right.
+ * Everything else here is as measured.
  */
 const PHASES: readonly Phase[] = [
   {
     id: "01",
     icon: <PhaseOneIcon width={23} height={33} />,
     nodePosition: "left-[0px] top-[332px]",
-    text: null,
+    text: {
+      numeral: "01",
+      numeralPosition: "left-[0px] top-[0px]",
+      title: "Founder Exploration",
+      titlePosition: "left-[0px] top-[83px]",
+      body: (
+        <>
+          You enter the program and start working on your idea. Monthly
+          workshops, envisioning sessions, and biweekly check-ins keep you moving
+          towards the proof table.
+        </>
+      ),
+      bodyPosition: "left-[0px] top-[117px] w-[240px]",
+    },
   },
   {
     id: "02",
@@ -83,8 +102,14 @@ const PHASES: readonly Phase[] = [
       numeralPosition: "left-[959px] top-[253px]",
       title: "Venture Building",
       titlePosition: "left-[959px] top-[326px]",
-      body: null,
-      bodyPosition: null,
+      body: (
+        <>
+          When Drommer and you agree the opportunity is worth pursuing, Phase 2
+          begins. You build the startup with us. Operational support, legal,
+          accounting, fundraising, all in.
+        </>
+      ),
+      bodyPosition: "left-[959px] top-[360px] w-[274px]",
     },
   },
 ];

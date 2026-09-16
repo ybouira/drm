@@ -42,7 +42,7 @@ export function Mission() {
 
           <Link
             href="./about-us"
-            className="flex h-[34px] w-[132px] flex-row items-center justify-center gap-[15px] rounded-[5px] bg-white px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
+            className="flex h-[34px] w-[132px] shrink-0 flex-row items-center justify-center gap-[15px] whitespace-nowrap rounded-[5px] bg-white px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
           >
             More about us
           </Link>

@@ -100,8 +100,20 @@ Apply now →
 Both card bodies render as two separate `<p>` elements. Card A uses a typographic
 apostrophe in `Let’s`.
 
-## Responsive Behavior
-- **Desktop (≥1440px):** two `700px` cards side by side, gap `40px`.
-- **Tablet (810–1439px):** cards narrow proportionally, stay side by side.
-- **Mobile (≤809px):** stack to one column, full-width; `60px` headline scales down.
-- Not visually confirmed at tablet/mobile — see the tooling note in `BEHAVIORS.md`.
+## Responsive Behavior — measured
+
+The cards **stack below 1440px**, they do not narrow side by side. The row
+(`.framer-axhh5c`) is `flex-direction: column` under
+`(min-width: 810px) and (max-width: 1439.98px)` and again under `(max-width: 809.98px)`.
+
+| | ≥1440px | 810–1439px |
+| - | ------- | ---------- |
+| Section padding | `100px` | `100px 40px` |
+| Row direction | `row`, gap `40px` | **`column`**, gap `40px` |
+| Card | `700 x 400` | `863 x 336` (fluid width) |
+| Card padding | `40px` | `40px` |
+| Card layout | `justify-content: space-between`, no gap | **`justify-content: center`, `gap: 60px`** |
+| Headline | `60px / 60px` | **`60px / 60px` — does not scale down** |
+
+Measured at 958px. Keeping the cards side by side below 1440px (as an earlier pass did)
+collapses the headline onto three lines and drives the button into the body copy.

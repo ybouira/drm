@@ -111,10 +111,20 @@ box-shadow: 0px 0px 20px 6px rgba(112, 56, 242, 0.5);
 Note this glow is `rgba(112, 56, 242, …)` — one unit off the `#7138F2` accent used
 elsewhere. Reproduced as given.
 
+### Text links — a separate mechanism
+
+Framer text links do **not** use the button variants above. They carry
+`--framer-link-hover-text-color` on the anchor. The **footer links set it to `#7138f2`**,
+so all six hover to purple. This was missed twice: once by scanning for component `:hover`
+rules, and once by only checking the button variant tables.
+
+To find these, read `--framer-link-hover-text-color` off the anchors themselves rather than
+looking for CSS rules.
+
 ### No hover state
 
-Nav links, footer links and the logo strip have **no** hover variant. The
-grayscale-to-colour logo hover added by an earlier pass was invented and has been removed.
+Nav links and the logo strip have **no** hover variant. The grayscale-to-colour logo hover
+added by an earlier pass was invented and has been removed.
 
 ### Transition
 

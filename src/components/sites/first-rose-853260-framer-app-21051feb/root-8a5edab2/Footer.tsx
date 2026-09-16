@@ -23,7 +23,9 @@ export function Footer() {
   return (
     <footer className="flex flex-col items-center justify-center gap-[75px] bg-[#0d0d0f] px-[20px] pt-[64px] pb-[50px] min-[810px]:px-[40px] min-[1440px]:px-[60px]">
       <div className="flex w-full max-w-[1440px] flex-col gap-[75px]">
-        <div className="flex flex-col items-start justify-start gap-[40px] min-[810px]:flex-row min-[810px]:justify-between min-[1440px]:justify-start min-[1440px]:gap-[349px]">
+        <div // Stacked with a 50px gap below 1440px; a single row with the measured
+          // 349px gap at desktop.
+          className="flex flex-col items-start justify-start gap-[50px] min-[1440px]:flex-row min-[1440px]:gap-[349px]">
           <DrommerWordmarkLarge width={230} height={40} />
 
           {/* The heading sits 20px above the link group, but the links
@@ -35,7 +37,7 @@ export function Footer() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
+                  className="text-[14px] leading-[16.8px] font-normal text-[#939393] transition-colors duration-200 ease-out hover:text-[#7138F2]"
                 >
                   {link.label}
                 </Link>
@@ -54,7 +56,7 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
+                  className="text-[14px] leading-[16.8px] font-normal text-[#939393] transition-colors duration-200 ease-out hover:text-[#7138F2]"
                 >
                   {link.label}
                 </a>
@@ -63,7 +65,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex h-[34px] flex-row items-center justify-center gap-[20px]">
+        <div className="flex h-[34px] flex-row items-center justify-start gap-[20px]">
           <a
             href="https://www.instagram.com/drommer.ch"
             target="_blank"
@@ -107,8 +109,11 @@ export function Footer() {
         </div>
 
         <div className="flex flex-row items-center justify-between">
+          {/* Two-tone on the live site: the name is wrapped in a span forced to
+              white, the tagline inherits the grey link colour. */}
           <p className="text-[14px] leading-[16.8px] font-normal text-[#939393]">
-            Drommer 2026 Built for founders
+            <span className="text-white">Drommer 2026 </span>
+            Built for founders
           </p>
         </div>
       </div>
