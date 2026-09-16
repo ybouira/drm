@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/FinalCta.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-final-cta.png`
+- **Screenshot:** (not captured — see `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/` for the sections that were)
 - **Interaction model:** static
 
 ## DOM Structure

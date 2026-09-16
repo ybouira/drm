@@ -73,7 +73,7 @@ export function BuildFirstStartup() {
           {CARDS.map((card) => (
             <div
               key={card.label}
-              className="relative flex h-[450px] w-full flex-col items-center justify-end gap-[10px] rounded-[10px] border-2 border-[rgba(80,80,80,0.2)] p-[20px] min-[1440px]:w-[300px]"
+              className="relative flex h-[450px] w-full flex-col items-center justify-end gap-[10px] rounded-[10px] p-[20px] shadow-[inset_0_0_0_2px_rgba(80,80,80,0.2)] min-[1440px]:w-[300px]"
             >
               <div className="absolute inset-0 overflow-clip rounded-[10px]">
                 <Image

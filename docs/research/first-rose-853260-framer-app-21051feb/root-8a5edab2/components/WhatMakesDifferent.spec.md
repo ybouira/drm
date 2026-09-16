@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/WhatMakesDifferent.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-pillars.png`
+- **Screenshot:** (not captured — see `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/` for the sections that were)
 - **Interaction model:** static
 
 ## DOM Structure
@@ -87,7 +87,8 @@ Card internals (top → bottom):
 ### Card typography
 - Number: `16px` / line-height `19.2px` / weight `700` / color `rgb(113, 56, 242)`
 - Title: `20px` / line-height `24px` / weight `700` / color `rgb(13, 13, 15)`
-- Description: `14px` / line-height `16.8px` / weight `400` / color `rgb(13, 13, 15)`
+- Description: `14px` / line-height `16.8px` / weight `400` / color `rgb(13, 13, 15)`,
+  authored at a fixed **`width: 216px`** (box `216 x 67`) regardless of card width
 - Tag: `12px` / line-height `18px` / weight `400` / color `rgb(113, 56, 242)`
 
 ## Per-Card Content (verbatim)

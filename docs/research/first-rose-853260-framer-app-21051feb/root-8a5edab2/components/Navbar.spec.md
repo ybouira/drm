@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/Navbar.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-hero.png`
+- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-hero.jpg`
 - **Interaction model:** static (verified across scrollY 0 → 3000; nothing changes)
 
 ## DOM Structure

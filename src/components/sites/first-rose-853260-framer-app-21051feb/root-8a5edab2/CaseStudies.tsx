@@ -86,7 +86,7 @@ function CaseStudyCard({
           height={study.brandMarkHeight}
           className="h-[125px] w-auto max-w-full object-contain"
         />
-        <p className="text-[20px] font-normal leading-[24px] text-white">
+        <p className="w-full text-[20px] font-normal leading-[24px] text-white">
           {study.description}
         </p>
       </div>

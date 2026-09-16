@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/Faq.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-faq-collapsed.png`,
+- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-faq-collapsed.jpg`,
   `desktop-faq-expanded.png`
 - **Interaction model:** **click-driven accordion — INDEPENDENT toggles, multiple rows may be open at once.**
 
@@ -70,9 +70,12 @@ div  (item, 820 x 60 collapsed / 820 x 99 open, overflow HIDDEN,
 
 ### Item header
 - Size: `820 x 60`
-- padding: `10px 0px 0px`
+- padding: `10px 0px`
 - **cursor: `pointer`**
-- display: `flex`, flex-direction: `row`
+- display: `flex`, flex-direction: `row`, justify-content: `space-between`, align-items: `center`
+- Children: the question (`780 x 18`) and a **`40 x 40` toggle box**.
+  **That 40x40 box is what makes the row 60px tall** (40 + 10 + 10). Sizing the toggle
+  to the 14px bars alone yields a 38px row and a badly short section.
 
 ### Question text
 - `15px` / `18px` / weight `600` / letter-spacing `-0.3px` / color `rgb(0, 0, 0)`

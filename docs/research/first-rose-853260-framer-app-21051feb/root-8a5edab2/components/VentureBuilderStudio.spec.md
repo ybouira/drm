@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/VentureBuilderStudio.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-venture-studio.png`
+- **Screenshot:** (not captured — see `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/` for the sections that were)
 - **Interaction model:** static
 
 ## DOM Structure
@@ -54,6 +54,7 @@ the white text belongs to that card, not to the section.
 
 ### Body paragraphs (two)
 - `18px` / `21.6px` / weight `400` / color `rgb(255, 255, 255)`
+- Authored at a fixed **`width: 670px`** (box `670 x 86`), not stretched to the 798px column
 
 ### "Start building with us →" button
 - Size: `187 x 34`

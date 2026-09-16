@@ -17,13 +17,13 @@ export function VentureBuilderStudio() {
               <br />
               We build companies too.
             </p>
-            <p className="text-[18px] leading-[21.6px] font-normal text-white">
+            <p className="text-[18px] leading-[21.6px] font-normal text-white min-[1440px]:w-[670px]">
               Beyond the Founder Program, Drommer works with startups and
               companies that need an operational partner to launch a new
               initiative. We don&apos;t advise. We build, with a dedicated team,
               in weekly execution cycles, from first test to first sale.
             </p>
-            <p className="text-[18px] leading-[21.6px] font-normal text-white">
+            <p className="text-[18px] leading-[21.6px] font-normal text-white min-[1440px]:w-[670px]">
               If you have an initiative that needs to move fast and you
               don&apos;t want to build an internal team from scratch, this is
               how we work together.

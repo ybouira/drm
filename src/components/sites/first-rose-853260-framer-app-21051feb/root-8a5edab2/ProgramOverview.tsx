@@ -105,7 +105,9 @@ export function ProgramOverview() {
                 <p className="text-[14px] font-bold leading-[16.8px] text-[#0d0d0f]">
                   {item.title}
                 </p>
-                <p className="text-[12px] font-normal leading-[14.4px] text-[#505050]">
+                {/* The live site authors this paragraph at a fixed 256px, which
+                    is what drives each row's 65px / 79px height. */}
+                <p className="text-[12px] font-normal leading-[14.4px] text-[#505050] min-[1440px]:w-[256px]">
                   {item.body}
                 </p>
               </div>

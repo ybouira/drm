@@ -98,7 +98,7 @@ export function WhatMakesDifferent() {
                 </h3>
               </div>
 
-              <p className="text-[14px] font-normal leading-[16.8px] text-[#0d0d0f]">
+              <p className="text-[14px] font-normal leading-[16.8px] text-[#0d0d0f] min-[1440px]:w-[216px]">
                 {pillar.description}
               </p>
 

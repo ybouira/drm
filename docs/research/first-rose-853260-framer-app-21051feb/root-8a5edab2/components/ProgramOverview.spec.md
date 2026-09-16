@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/ProgramOverview.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-program-overview.png`
+- **Screenshot:** (not captured — see `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/` for the sections that were)
 - **Interaction model:** static
 
 ## DOM Structure
@@ -76,15 +76,25 @@ content width (`1492px` at a 1692px content box), bounded only by the section's
 - Icon box: `48 x 48`, `overflow: clip`, containing an absolutely-positioned `40 x 40` icon
 - Text group: flex column, gap `5px`
 
-### Divider (card 1 only)
+### Divider (BOTH cards)
 - Size: `367 x 1`
 - background-color: `rgb(217, 217, 217)`
 - border-radius: `100px`
 
+Both cards carry a divider between the header block and the list. Card 2's children are
+`[header (67), divider (1), 6 bullet rows]`.
+
 ### List row
-- Size: `367 x 27` (approx per row)
-- display: `flex`, flex-direction: `row`, align-items: `center`, gap: `10px`
-- Leading `ListCheckIcon` rendered `11 x 8` (viewBox `-1 -1 13 10`, stroke `#7138F2`)
+- Width `367`. Card 1 rows measure `65 / 65 / 79 / 65 / 79`; card 2 rows measure `27` each.
+- display: `flex`, flex-direction: `row`, gap: `10px`
+- **align-items: `flex-start`** on card 1 (multi-line rows, check top-aligned).
+  Card 2's single-line bullets read as centered because the row is only 27px tall.
+- The check sits in a **`27 x 27` flex-centered box** (this is what produces the
+  "367 x 27" row measurement), with `ListCheckIcon` rendered `11 x 8` inside
+  (viewBox `-1 -1 13 10`, stroke `#7138F2`).
+- **Card 1's body paragraph is authored at a fixed `width: 256px`** (computed
+  `256px`, `max-width: none`). This is what drives the 65px / 79px row heights —
+  without it the text wraps to fewer lines and the card comes out ~58px short.
 
 ### Card typography
 - Card title: `24px` / line-height `28.8px` / weight `700` / color `rgb(13, 13, 15)`

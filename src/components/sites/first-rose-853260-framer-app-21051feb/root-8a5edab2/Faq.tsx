@@ -61,8 +61,10 @@ const ENTRIES: FaqEntry[] = [
  * dropping the vertical bar — nothing rotates and nothing fades.
  */
 function ToggleIcon({ open }: { open: boolean }) {
+  // The bars live in a 40x40 box on the live site; that box is what gives the
+  // collapsed row its 60px height (40 + 10 + 10 of vertical padding).
   return (
-    <span className="relative flex h-[14px] w-[14px] shrink-0 items-center justify-center">
+    <span className="relative flex h-[40px] w-[40px] shrink-0 items-center justify-center">
       <span className="absolute h-[2px] w-[14px] rounded-[1px] bg-black" />
       {!open && (
         <span className="absolute h-[14px] w-[2px] rounded-[10px] bg-black" />
@@ -90,7 +92,10 @@ export function Faq() {
           <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-[#7138f2]">
             FAQ
           </p>
-          <p className="text-[32px] leading-[40px] font-bold text-[#0d0d0f] min-[810px]:text-[40px] min-[810px]:leading-[48px]">
+          {/* This string's natural width is 560.13px in a 560px column, and the
+              live site lets that 0.13px overflow ride rather than wrapping. The
+              nowrap reproduces that single line at desktop. */}
+          <p className="text-[32px] leading-[40px] font-bold text-[#0d0d0f] min-[810px]:text-[40px] min-[810px]:leading-[48px] min-[1440px]:whitespace-nowrap">
             Everything you need to know
           </p>
         </div>
@@ -102,13 +107,16 @@ export function Faq() {
             return (
               <div
                 key={`${entry.question}-${index}`}
-                className="overflow-hidden border-b border-[#d2d2d2]"
+                // The live site draws this rule on ::after, so it overlays the
+                // row rather than adding to its height — an inset shadow keeps
+                // the collapsed row at exactly 60px.
+                className="overflow-hidden shadow-[inset_0_-1px_0_0_#d2d2d2]"
               >
                 <button
                   type="button"
                   aria-expanded={open}
                   onClick={() => toggle(index)}
-                  className="flex w-full cursor-pointer items-center justify-between gap-[20px] pt-[10px] pb-[10px] text-left"
+                  className="flex h-[60px] w-full cursor-pointer flex-row items-center justify-between py-[10px] text-left"
                 >
                   <span className="text-[15px] leading-[18px] font-semibold tracking-[-0.3px] text-black">
                     {entry.question}
@@ -117,10 +125,8 @@ export function Faq() {
                 </button>
 
                 <div
-                  className={`grid transition-all duration-200 ease-out ${
-                    open
-                      ? "grid-rows-[1fr] pb-[13px] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
+                  className={`grid pr-[20px] transition-all duration-200 ease-out ${
+                    open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   }`}
                 >
                   <p className="overflow-hidden text-[15px] leading-[19.5px] font-normal tracking-[-0.15px] text-[#999999]">

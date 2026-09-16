@@ -26,34 +26,40 @@ export function Footer() {
         <div className="flex flex-col items-start justify-start gap-[40px] min-[810px]:flex-row min-[810px]:justify-between min-[1440px]:justify-start min-[1440px]:gap-[349px]">
           <DrommerWordmarkLarge width={230} height={40} />
 
+          {/* The heading sits 20px above the link group, but the links
+              themselves are only 10px apart. */}
           <div className="flex flex-col gap-[20px] min-[1440px]:w-[116px]">
             <p className="text-[14px] leading-[16.8px] font-medium text-white">Company</p>
-            {COMPANY_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <div className="flex flex-col gap-[10px]">
+              {COMPANY_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col gap-[20px] min-[1440px]:w-[95px]">
             <p className="text-[14px] leading-[16.8px] font-medium text-white">
               Opportunities
             </p>
-            {OPPORTUNITY_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
-              >
-                {link.label}
-              </a>
-            ))}
+            <div className="flex flex-col gap-[10px]">
+              {OPPORTUNITY_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[14px] leading-[16.8px] font-normal text-[#939393]"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 

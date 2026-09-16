@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/ProgramPhases.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-program-phases.png`
+- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-program-phases.jpg`
 - **Interaction model:** **static** — verified. Scrolling through the section changes
   nothing; the nodes have no click handlers and no active/inactive states. Do not build
   this as tabs, an accordion, or a scroll-driven stepper.

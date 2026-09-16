@@ -2,7 +2,7 @@
 
 ## Overview
 - **Target file:** `src/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/CaseStudies.tsx`
-- **Screenshot:** `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/desktop-case-studies.png`
+- **Screenshot:** (not captured — see `docs/design-references/first-rose-853260-framer-app-21051feb/root-8a5edab2/` for the sections that were)
 - **Interaction model:** static (cards are links)
 
 ## DOM Structure
@@ -40,6 +40,7 @@ by side — not a 3-across row of small cards.
 
 ### Header
 - display: `flex`, flex-direction: `column`, align-items: `flex-start`, gap: `10px`
+  (an outer wrapper reports `gap: 30px` but has a single child, so it is inert)
 
 ### "CASE STUDY"
 - `12px` / `14.4px` / weight `700` / letter-spacing `2.4px` / color **`rgb(120, 68, 238)`**
@@ -57,6 +58,12 @@ by side — not a 3-across row of small cards.
 - border-radius: `10px`
 - display: `flex`, flex-direction: `column`
 - justify-content: `space-between`, align-items: **`flex-end`**
+
+`align-items: flex-end` puts the **tag pill at the top-RIGHT** (measured pill left = 1279
+on the 1440 card = 1440 − 40 − 121). The **content block below is `width: 100%`** with
+`align-items: flex-start; justify-content: flex-end; gap: 20px; height: 169px`, so the
+brand mark and description sit bottom-**left**. The description spans the full 1360px
+content width.
 - Layer stack:
   1. `div` absolute → background `img`, `object-fit: cover`, radius `10px`
   2. `div` absolute gradient overlay, radius `10px`, `overflow: clip`:
@@ -88,6 +95,8 @@ by side — not a 3-across row of small cards.
 - padding: `10px 20px`, border-radius: `5px`
 - Label: `14px` / `14px` / weight `600` / letter-spacing `-0.28px` / color `rgb(255, 255, 255)`
 - href: `./case-studies`
+- **Centered**, not left-aligned — the `max-width: 1440px` rail is `align-items: center`
+  (measured button left = 644 ≈ (1440 − 151) / 2)
 
 > Two distinct purples are in use on this section: `rgb(120, 68, 238)` for the eyebrow and
 > tag pills, `rgb(113, 56, 242)` for the button. Keep them separate.
