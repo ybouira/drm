@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/Navbar";
 import { Hero } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/Hero";
 import { BuildFirstStartup } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/BuildFirstStartup";
+import { MarqueeStrip } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/MarqueeStrip";
 import { WhatMakesDifferent } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/WhatMakesDifferent";
 import { Mission } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/Mission";
 import { ProgramPhases } from "@/components/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/ProgramPhases";
@@ -20,6 +21,7 @@ export default function Home() {
       <main>
         <Hero />
         <BuildFirstStartup />
+        <MarqueeStrip />
         <WhatMakesDifferent />
         <Mission />
         <ProgramPhases />

@@ -66,6 +66,26 @@ the following material errors, all now captured in the specs:
 13. **Hero** is `#0d0d0f` with a `60px/60px` headline and a **1px solid white** secondary
     button border (drawn on `::after`), not `white/30`.
 
+## In-page anchors
+
+Three sections carry `id` attributes on the live site, and the nav/hero/footer links point
+at them. The clone must reproduce these ids or those links dead-end:
+
+| Anchor | Section |
+| ------ | ------- |
+| `#four-pillar` (singular) | **WhatMakesDifferent** |
+| `#program-phases` | **ProgramPhases** |
+| `#for-companies` | **VentureBuilderStudio** |
+
+Link targets used across the page:
+- Hero "How we work" → `./#four-pillar`; Hero "Program Phases" → `./#program-phases`
+- Nav/Footer "Founder Program" → `./#program-phases`; "For Companies" → `./#for-companies`
+- "Case Studies" → `./case-studies`; "About Us" → `./about-us`; case-study cards →
+  `./case-studies/<slug>`. These are **routes that do not exist in this single-page clone**
+  and will 404 — that is expected, since only `/` is in scope.
+- External: `https://forms.fillout.com/t/cP5KQYqyDdus` (Apply now / Apply to build) and
+  `https://schedule.fillout.com/t/uGGCRZmyGvus` (Start a project / Join us / Start building).
+
 ## Global notes
 
 - Fonts: **Plus Jakarta Sans** (nearly everything) and **Inter** (only the ProgramPhases

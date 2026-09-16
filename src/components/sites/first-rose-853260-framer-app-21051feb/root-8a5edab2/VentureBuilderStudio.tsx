@@ -1,42 +1,52 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export function VentureBuilderStudio() {
   return (
-    <section id="for-companies" className="bg-black px-6 py-24 text-white md:px-10">
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-12 md:grid-cols-2">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/60">
-            Venture Builder Studio
-          </p>
-          <h2 className="mt-3 max-w-lg text-4xl font-extrabold leading-tight md:text-5xl">
-            Not just a founder program. We build companies too.
-          </h2>
-          <p className="mt-6 max-w-lg text-white/60">
-            Beyond the Founder Program, Drommer works with startups and
-            companies that need an operational partner to launch a new
-            initiative. We don&apos;t advise. We build, with a dedicated
-            team, in weekly execution cycles, from first test to first sale.
-          </p>
-          <p className="mt-4 max-w-lg text-white/60">
-            If you have an initiative that needs to move fast and you
-            don&apos;t want to build an internal team from scratch, this is
-            how we work together.
-          </p>
-          <Link
-            href="#apply"
-            className="mt-8 inline-block rounded-[5px] bg-white px-6 py-3 text-sm font-semibold text-black hover:opacity-90"
+    <section
+      id="for-companies"
+      className="flex flex-col items-center justify-center gap-[60px] bg-white px-[20px] py-[60px] min-[810px]:px-[40px] min-[1440px]:px-[100px]"
+    >
+      <div className="flex w-full max-w-[1440px] flex-col items-start justify-start gap-[40px] rounded-[10px] bg-[#161616] p-[24px] min-[810px]:flex-row min-[810px]:gap-[60px] min-[810px]:p-[40px] min-[1440px]:h-[474px]">
+        <div className="flex w-full flex-col gap-[40px] min-[810px]:flex-1 min-[810px]:gap-[60px]">
+          <div className="flex flex-col gap-[20px]">
+            <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-white">
+              VENTURE BUILDER STUDIO
+            </p>
+            <p className="text-[32px] leading-[38.4px] font-bold text-white min-[810px]:text-[40px] min-[810px]:leading-[48px]">
+              Not just a founder program.
+              <br />
+              We build companies too.
+            </p>
+            <p className="text-[18px] leading-[21.6px] font-normal text-white">
+              Beyond the Founder Program, Drommer works with startups and
+              companies that need an operational partner to launch a new
+              initiative. We don&apos;t advise. We build, with a dedicated team,
+              in weekly execution cycles, from first test to first sale.
+            </p>
+            <p className="text-[18px] leading-[21.6px] font-normal text-white">
+              If you have an initiative that needs to move fast and you
+              don&apos;t want to build an internal team from scratch, this is
+              how we work together.
+            </p>
+          </div>
+
+          <a
+            href="https://schedule.fillout.com/t/uGGCRZmyGvus"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-[34px] w-fit items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black"
           >
             Start building with us →
-          </Link>
+          </a>
         </div>
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-neutral-900">
+
+        <div className="w-full min-[810px]:w-[502px] min-[810px]:shrink-0">
           <Image
             src="/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/images/vjgh5nFn3fu3gvShiInOR0ILTs.png"
-            alt="Venture Builder Studio"
-            fill
-            sizes="(min-width: 768px) 500px, 100vw"
-            className="object-cover"
+            alt=""
+            width={502}
+            height={394}
+            className="h-[240px] w-full rounded-[10px] object-cover min-[810px]:h-[394px] min-[810px]:w-[502px]"
           />
         </div>
       </div>

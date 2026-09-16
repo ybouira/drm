@@ -2,36 +2,43 @@ import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-end overflow-hidden bg-black px-6 pb-16 pt-32 text-white md:px-10">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black via-black to-neutral-950" />
-      <div className="relative mx-auto w-full max-w-[1440px]">
-        <p className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-white/70">
-          The Founder Path
-        </p>
-        <h1 className="max-w-4xl text-5xl leading-[1.05] font-light md:text-7xl">
-          We <span className="font-bold">turn</span> ambition into{" "}
-          <span className="font-bold">startups</span>.
-        </h1>
-        <p className="mt-6 max-w-xl text-base text-white/70 md:text-lg">
-          The Founder Program is where you stop dreaming about starting a
-          company and actually do it. Real work. Real mentorship. A team
-          that co-builds with you.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="#how-we-work"
-            className="rounded-[5px] bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
-          >
-            How we work
-          </Link>
-          <Link
-            href="#program-phases"
-            className="rounded-[5px] border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/60"
-          >
-            Program Phases
-          </Link>
+    <div className="relative flex h-screen flex-col items-center justify-center overflow-clip">
+      <div className="absolute inset-0 flex flex-col items-center justify-end gap-[10px] bg-[#0d0d0f] px-[20px] pt-[40px] pb-[40px] min-[810px]:px-[40px] min-[810px]:pb-[60px] min-[1440px]:px-[100px]">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(12,12,13,0)_0%,rgba(12,12,13,0.6)_86.6514%,rgb(12,12,13)_100%)]" />
+
+        <div className="relative z-[1] flex w-full max-w-[1440px] flex-col items-start justify-center gap-[20px]">
+          <div className="flex flex-col items-start gap-[10px]">
+            <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-white">
+              THE FOUNDER PATH
+            </p>
+            <p className="max-w-[691px] text-[36px] leading-[36px] font-normal text-white min-[810px]:text-[48px] min-[810px]:leading-[48px] min-[1440px]:text-[60px] min-[1440px]:leading-[60px]">
+              We <strong className="font-bold">turn</strong> ambition into{" "}
+              <strong className="font-bold">startups</strong>.
+            </p>
+          </div>
+
+          <p className="max-w-[630px] text-[16px] leading-[20px] font-normal text-white min-[810px]:text-[18px] min-[1440px]:text-[20px]">
+            The Founder Program is where you stop dreaming about starting a
+            company and actually do it. Real work. Real mentorship. A team that
+            co-builds with you.
+          </p>
+
+          <div className="flex h-[34px] flex-row items-center gap-[15px]">
+            <Link
+              href="./#four-pillar"
+              className="inline-flex h-[34px] items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black"
+            >
+              How we work
+            </Link>
+            <Link
+              href="./#program-phases"
+              className="inline-flex h-[34px] items-center justify-center rounded-[5px] border border-white bg-transparent px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-white"
+            >
+              Program Phases
+            </Link>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

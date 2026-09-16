@@ -122,7 +122,7 @@ All four have empty `alt` on the live site (decorative).
 ```
 This is
 Where you build your first startup.
-A highly selective program where young entrepreneurs validate business ideas, build their first startup, and grow alongside founders who've done it before.
+A highly selective program where young entrepreneurs validate business ideas, build their startup and grow alongside a network of other entrepreneurs, mentors and investors.
 ```
 (The intro paragraph's full text is as rendered; see the table above for card copy.)
 

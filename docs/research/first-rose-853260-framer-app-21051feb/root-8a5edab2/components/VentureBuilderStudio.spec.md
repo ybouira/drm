@@ -80,8 +80,8 @@ the white text belongs to that card, not to the section.
 VENTURE BUILDER STUDIO
 Not just a founder program.
 We build companies too.
-Beyond the Founder Program, Drommer works with startups and companies that need an operational partner to design, build and launch digital products.
-If you have an initiative that needs to move fast and you don't want to build an internal team from scratch, we can build it with you.
+Beyond the Founder Program, Drommer works with startups and companies that need an operational partner to launch a new initiative. We don't advise. We build, with a dedicated team, in weekly execution cycles, from first test to first sale.
+If you have an initiative that needs to move fast and you don't want to build an internal team from scratch, this is how we work together.
 Start building with us →
 ```
 

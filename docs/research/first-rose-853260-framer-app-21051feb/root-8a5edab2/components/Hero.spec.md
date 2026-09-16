@@ -125,6 +125,13 @@ How we work
 Program Phases
 ```
 
+## Links (from the live site)
+- `How we work` → `./#four-pillar`
+- `Program Phases` → `./#program-phases`
+
+Both are same-page anchors with no `target`. Note the anchor is `#four-pillar`
+(singular), pointing at the "What makes this different" section.
+
 ## Responsive Behavior
 - **Desktop (≥1440px):** as measured; padding `40px 100px 60px`, rail capped at 1440px.
 - **Tablet (810–1439px):** rail becomes fluid, horizontal padding reduces; headline scales down.

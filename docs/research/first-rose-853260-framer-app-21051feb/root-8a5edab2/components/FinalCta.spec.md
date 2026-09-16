@@ -84,7 +84,8 @@ Button — "Apply now →":
 ### Card A
 ```
 Let’s build together
-You have an initiative that needs to move. We bring the team, the process, and the execution. No long onboarding, no heavy structures to build from scratch, just results.
+You have an initiative that needs to move. We bring the team, the process, and the execution. No internal
+structures to build from scratch, just results.
 Start a project →
 ```
 

@@ -119,7 +119,9 @@ Every card's tag uses the same check icon: `PillarTagCheckIcon`, rendered `16 x 
 ```
 IN 4 PILLARS
 What makes this different
-Not a course. Not a bootcamp. A structured path to launch your own startup, with <br> ...
+Not a course. Not a bootcamp. A structured path to launch your own startup, with
+<br>
+people who've done it before.
 ```
 (Subtitle renders across two lines via an explicit `<br>`.)
 
