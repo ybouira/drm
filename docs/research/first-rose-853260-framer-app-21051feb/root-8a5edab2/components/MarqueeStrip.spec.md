@@ -62,14 +62,18 @@ div  (strip, 1692 x 52, overflow clip, purple gradient background)
 - letter-spacing: `normal`
 - color: `rgb(255, 255, 255)`
 
-## Ticker behavior — IMPORTANT
+## Ticker behavior — IT ANIMATES
 
-Like the `BuiltWith` logo strip, this is a Framer Ticker that **does not animate**. The
-`ul` transform was sampled 6 times over 1.8s while in the viewport and held constant at
-`matrix(1, 0, 0, 1, -30, 0)`.
+> **Correction.** Previously recorded as static from a frozen `translateX(-30px)` reading.
+> That sample came from a background tab with `requestAnimationFrame` suspended; `-30px` is
+> the ticker's initial offset and ships in the server-rendered HTML.
 
-**Build it as a static row with a `-30px` offset and `overflow: clip`.** Do not add a
-scrolling marquee animation.
+A Framer **Ticker**, configured `tickerEffectVelocity: 50`, `tickerEffectGap: 30px`,
+`tickerEffectOverflow: clip`. It scrolls **left at 50px/s and loops**.
+
+**Implementation:** two identical groups in one track, each with a trailing `30px` gap, and
+a `linear infinite` keyframe translating `0 → -50%`. One group is ~1431px plus the trailing
+gap, so a pass is `(1431 + 30) / 50 ≈ 29.2s`. Disable under `prefers-reduced-motion`.
 
 ## Content (verbatim, in order)
 
@@ -91,7 +95,7 @@ The list alternates dot → label, starting with a dot, for 10 labels (20 `<li>`
 All labels are already uppercase in the content — no `text-transform` is applied.
 
 ## States & Behaviors
-- **Scroll:** N/A — static, no animation.
+- **Scroll:** the ticker runs continuously at 50px/s regardless of scroll position.
 - **Hover:** not specified by the source; do not invent.
 
 ## Assets

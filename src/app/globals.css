@@ -151,3 +151,24 @@
     @apply font-sans;
   }
 }
+
+/* Framer Ticker equivalent.
+   The live site runs both ticker strips through Framer's Ticker component at
+   `tickerEffectVelocity: 50` (px/s), leftward, with looping enabled. Each track
+   below holds two identical groups, each padded on the right by one gap, so
+   translating the track by exactly -50% lands the second group where the first
+   began — a seamless loop. Duration is therefore (groupWidth + gap) / 50. */
+@keyframes drommer-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drommer-ticker-track {
+    animation: none !important;
+  }
+}

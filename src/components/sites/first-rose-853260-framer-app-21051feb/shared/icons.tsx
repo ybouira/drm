@@ -102,8 +102,8 @@ export function PhasesConnectorIcon({ width = 1164, height = 263, ...props }: Ic
 <path d="M0 254.925C72.2715 152.425 181.174 8.92383 346.012 107.924C446.499 174.424 595.451 352.424 782.611 116.424C858.347 20.9233 977.645 -89.0764 1155.35 116.424" stroke="#7138F2" strokeWidth="8" strokeLinecap="round"/>
 </g>
 <defs>
-<filter x="-16.9" y="-16.9049" width="1189.15" height="288.73" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter x="-16.9" y="-16.9049" width="1189.15" height="288.73" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset/>
 <feGaussianBlur stdDeviation="6.45"/>

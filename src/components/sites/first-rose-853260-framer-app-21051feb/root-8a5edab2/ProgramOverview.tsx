@@ -155,7 +155,7 @@ export function ProgramOverview() {
         href="https://forms.fillout.com/t/cP5KQYqyDdus"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-[15px] rounded-[5px] bg-[#7138f2] px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] text-white"
+        className="inline-flex items-center justify-center gap-[15px] rounded-[5px] bg-[#7138f2] px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] text-white hover:bg-[#4418AB] transition-colors duration-200 ease-out"
       >
         Explore the current challenge &#8594;
       </a>

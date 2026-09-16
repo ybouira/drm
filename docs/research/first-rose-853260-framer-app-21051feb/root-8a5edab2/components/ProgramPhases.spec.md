@@ -114,12 +114,13 @@ These are **gradient-filled text**, not grey text:
 | Numeral `04` | `959` | `253` | `81 x 73`  | gradient text |
 | Title        | `959` | `326` | `162 x 24` | `Venture Building` |
 
-**Important content facts, verified on the live site:**
-- There is **no phase 01 text block**. The leftmost node (`PhaseOneIcon`, the hourglass)
-  sits on the curve with no numeral, title or body beside it.
-- **Phase 04 has a title but no body paragraph.**
+**Important content facts, verified on the live site at ≥1440px:**
+- There is **no phase 01 text block** on the desktop stage. The leftmost node
+  (`PhaseOneIcon`, the hourglass) sits on the curve with no numeral, title or body.
+- **Phase 04 has a title but no body paragraph** on the desktop stage.
 
-Reproduce this as-is. Do not invent a phase 01 label or a phase 04 description.
+Reproduce the desktop stage as-is — but see the section below, because this is *not* the
+whole story.
 
 ## States & Behaviors
 - **Scroll:** N/A — static, verified.
@@ -142,10 +143,40 @@ Selected founders join an intensive in-person experience at Drommer HQ in Chiass
 04  Venture Building
 ```
 
-## Responsive Behavior
-- **Desktop (≥1440px):** the absolute stage as specified.
-- **Tablet (810–1439px) / Mobile (≤809px):** a 1233px-wide absolute stage cannot survive
-  narrower viewports. Below `1440px`, fall back to a **vertical stacked list** of the four
-  phases (icon circle, numeral, title, body) and hide the connector SVG. This is an
-  implementation decision, not an extracted one — the per-width layout could not be
-  observed (see the tooling note in `BEHAVIORS.md`).
+## Responsive Behavior — a DIFFERENT SECTION below 1440px
+
+> **Correction.** An earlier pass assumed the sub-1440px layout was the desktop stage
+> reflowed, and reused its (incomplete) content. That is wrong.
+
+Below `1440px` the live site does not shrink the stage — Framer **conditionally renders a
+different section entirely**, headed:
+
+> **How the Founder Program actually works**
+
+(note *actually*, versus the desktop "How the Founder Program works"). Because the swap is
+conditional rendering rather than CSS, the alternate section is **completely absent from
+the DOM at desktop width** — which is why a desktop-only DOM scan missed it. Its copy was
+recovered from the page's compiled component source.
+
+This version names and describes **all four phases**, including the 01 and 04 copy the
+desktop stage omits:
+
+| # | Icon | Title | Body |
+| - | ---- | ----- | ---- |
+| 01 | `PhaseOneIcon` (lucide/hourglass) | `Founder Exploration` | `You enter the program and start working on your idea. Monthly workshops, envisioning sessions, and biweekly check-ins keep you moving towards the proof table.` |
+| 02 | `PhaseTwoIcon` (lucide/blocks) | `Proof Table` | `Every month, you present your progress in front of the Drommer team and external network. You get challenged, supported, and directed. This is where weak ideas get stronger and real founders emerge.` |
+| 03 | `PhaseThreeIcon` (lucide/rocket) | `Analysis Phase` | `If you made worthwhile progress and passed the proof table we start going deeper and we start working together. We investigate the market, map assumptions, and gather real validation signals. The goal: move from intuition to evidence.` |
+| 04 | `PhaseFourIcon` (lucide/sprout) | `Venture Building` | `When Drommer and you agree the opportunity is worth pursuing, Phase 2 begins. You build the startup with us. Operational support, legal, accounting, fundraising, all in.` |
+
+The `lucide/*` names come from the source's `data-framer-name` markers and confirm the icon
+mapping (hourglass, blocks, rocket, sprout).
+
+Note the source contains two near-identical alternate blocks (tablet and mobile). They
+differ only in phase 04's wording — `build the startup together` versus `build the startup
+with us`. The clone uses the latter, from the block where all four bodies are present.
+
+- **Desktop (≥1440px):** the absolute 1233×567 stage, with the connector and the partial
+  02/03/04 copy exactly as measured above.
+- **Below 1440px:** the four-phase section above, stacked vertically, connector hidden.
+  The exact spacing of that layout was not measured (the viewport could not be resized in
+  this environment); the copy, titles, numerals and icons are exact.

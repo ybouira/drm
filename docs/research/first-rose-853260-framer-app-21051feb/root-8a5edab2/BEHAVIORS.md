@@ -2,7 +2,22 @@
 
 Source: https://first-rose-853260.framer.app/
 Extracted from the live site via Chrome MCP (`getComputedStyle`, real scroll/click
-probing, and the page's own CSSOM). Values here are measured, not estimated.
+probing, the page's own CSSOM, and its compiled component source). Values here are
+measured, not estimated.
+
+> **Measurement warning — read before re-running any behavioral extraction.**
+> The automation tab in this environment reports `document.visibilityState === "hidden"`
+> and never fires `requestAnimationFrame`, even while screenshots render fine. Anything
+> driven by rAF — which on a Framer site means **every ticker, and every framer-motion
+> hover/appear variant** — is therefore frozen, and naive sampling reports it as static.
+> An earlier pass fell into exactly this trap and wrongly recorded "no hover states" and
+> "tickers do not animate".
+>
+> Before concluding that something does not move, check:
+> `document.visibilityState`, `document.hasFocus()`, and whether a `requestAnimationFrame`
+> callback actually fires within ~600ms. If rAF is dead, fall back to
+> `document.getAnimations()` (catches CSS/WAAPI) and to reading the site's compiled
+> component source, which is what was done here.
 
 ## Viewport / breakpoint facts
 
@@ -38,17 +53,10 @@ All measurements in the component specs were taken at an inner width of **1707px
 
 ## Entrance / scroll-driven animation
 
-**There are none.** The page has exactly one element carrying Framer's appear-animation
-attribute (`[data-framer-appear-id]`), and it is the **Framer platform badge**
-(`.__framer-badge`, "Create a free website with Framer…") sitting at the bottom-right.
-It is stuck at `opacity: 0.001` / `translateY(10px)` and is excluded from the clone.
-
-No section fades, slides, staggers, or transforms on scroll. No `IntersectionObserver`
-driven state. No `@keyframes` are defined anywhere in the page's CSS (0 keyframe rules
-across all 6 style blocks).
-
-**Implication for the clone:** do not add scroll-reveal animations. The original is
-static; adding motion would be a fidelity regression.
+No section fades, slides, staggers, or transforms on scroll. The page has exactly one
+element carrying Framer's appear-animation attribute (`[data-framer-appear-id]`), and it is
+the **Framer platform badge** (`.__framer-badge`), which is excluded from the clone. No
+`@keyframes` are defined in the page's own CSS.
 
 ## Navbar behavior
 
@@ -70,26 +78,61 @@ Nothing shrinks, floats, gains a shadow, or changes color. The pinning is done b
 
 ## Hover behavior
 
-The page defines **no component-level `:hover` CSS**. All 9 `:hover` rules found in the
-CSSOM are Framer's generic text/link boilerplate operating on `--framer-link-*` custom
-properties, none of which are set on this site's components.
+> **Correction.** An earlier pass concluded there were no hover states because the page
+> defines no component-level `:hover` CSS. That was wrong. Framer implements hover as
+> **motion variants in JS**, which are invisible to a CSS scan *and* cannot be observed by
+> dispatching pointer events, because the variant is applied through framer-motion's
+> `requestAnimationFrame` loop. The variants below were read directly out of the site's
+> compiled component source (`shared-lib.*.mjs`, `Asiqxhl7h.*.mjs`,
+> `QuvJb7….mjs`) and are exact.
 
-Any hover feedback would therefore come from framer-motion `whileHover` props in JS,
-which are not observable as CSS. Treat hover states as **not specified by the source** —
-the clone should keep hover effects minimal and non-invented. Where the previous pass
-added effects like `hover:opacity-90` or grayscale-to-color transitions on the logo grid,
-those were **invented, not extracted**, and should be removed unless separately verified.
+### Buttons — one shared component with six variants
+
+| Variant | Base | On hover |
+| ------- | ---- | -------- |
+| `E0NWvRKE2` (white pill) | `background: #FFFFFF`, black label | `background: #CCCCCC` |
+| `KwhqBngKy` (purple pill) | `background: #7138F2`, white label | `background: #4418AB` |
+| `J3g7ZPs3Q` (outlined, on dark) | transparent, `1px solid #FFFFFF`, white label | `background: #FFFFFF`, border width `0`, label `#000000` |
+| `QlOC0hl12` (outlined, on light) | transparent, `1px solid #000000`, black label | `background: #000000`, label `#FFFFFF` |
+| `yF1oVxVsY` (outlined, purple) | transparent, `1px solid #7138F2`, purple label | `background: #7138F2`, label `#FFFFFF` |
+| `o17Q4xIjI` (black pill) | `background: #000000` | `background: #1A1A1A` |
+
+Only the first three appear on this page.
+
+### Cards
+
+Both the **BuildFirstStartup** cards (`DDHCD3a9j`) and the **CaseStudies** cards
+(`pqGKyqHoq`) go from `box-shadow: none` to:
+
+```
+box-shadow: 0px 0px 20px 6px rgba(112, 56, 242, 0.5);
+```
+
+Note this glow is `rgba(112, 56, 242, …)` — one unit off the `#7138F2` accent used
+elsewhere. Reproduced as given.
+
+### No hover state
+
+Nav links, footer links and the logo strip have **no** hover variant. The
+grayscale-to-colour logo hover added by an earlier pass was invented and has been removed.
+
+### Transition
+
+The variants carry Framer's default spring rather than a CSS duration. The clone uses a
+200ms ease-out colour/shadow transition as a close equivalent; this timing is an
+approximation, not an extracted value.
 
 ## Click-driven interaction
 
 ### FAQ accordion — the only interactive component on the page
 
-The FAQ section contains no SVG icons (the `+` / `×` affordance is not an inline SVG).
-Interaction model confirmed by clicking rows on the live site: **click-to-expand, one row
-open at a time.** See `components/Faq.spec.md` for per-row measurements.
+The FAQ section contains no SVG icons (the `+` affordance is built from two plain bars,
+and becomes a `−` by dropping the vertical one). Interaction model confirmed by clicking
+rows on the live site: **click-to-expand, and rows toggle independently — more than one can
+be open at once.** See `components/Faq.spec.md` for per-row measurements.
 
-Every other section on the page is **static**: no tabs, no carousels, no auto-cycling
-content, no scroll-driven panel switching, no modals, no dropdowns.
+Apart from the FAQ and the two ticker strips below, every section is **static**: no tabs,
+no scroll-driven panel switching, no modals, no dropdowns.
 
 ## Media
 
@@ -98,7 +141,46 @@ content, no scroll-driven panel switching, no modals, no dropdowns.
   — `src` attribute is empty (resolving to the page URL), `currentSrc` is `""`, and there
   are zero `<source>` children. There is no recoverable video asset. The hero renders as a
   flat `#0d0d0f` panel with a bottom gradient, which is what the live site shows.
-- No Lottie, no `<canvas>`, no CSS animations.
+- No Lottie and no `<canvas>`.
+- The page defines no `@keyframes` of its own; the two ticker strips animate from JS
+  (see below).
+
+## Ticker strips — BOTH ANIMATE
+
+> **Correction.** An earlier pass sampled `transform` on both strips and saw it frozen at
+> `translateX(-60px)` / `translateX(-30px)`, and recorded them as static. That measurement
+> was taken in a **background tab**, where Chrome suspends `requestAnimationFrame` — so a
+> running rAF animation reads as motionless. The values it saw are simply the ticker's
+> initial offset, which is present in the server-rendered HTML.
+
+Both strips are Framer **Ticker** components (`li.ticker-item`, `aria-posinset` /
+`aria-setsize`). Their configuration, read from the site's compiled source:
+
+| Prop | MarqueeStrip | BuiltWith logos |
+| ---- | ------------ | --------------- |
+| `tickerEffectVelocity` | `50` | `50` |
+| `tickerEffectGap` | `30px` | `60px` |
+| `tickerEffectHoverModifier` | `100` | `100` |
+| `tickerEffectOverflow` | `clip` | `clip` |
+| `tickerEffectDraggable` | `false` | `false` |
+| `tickerEffectStackDirection` | `row` | `row` |
+
+The runtime advances the offset each frame as
+`offset -= (delta_ms / 1000) × velocity × sign × hoverFactor`, i.e. a constant **50px/s**
+leftward, looping.
+
+`isStatic` comes from Framer's `useIsStaticRenderer()` and is true only in the editor
+canvas and during SSR — never on the published site.
+
+**Clone implementation:** a CSS `@keyframes drommer-ticker` translating a two-group track
+from `0` to `-50%`, `linear`, `infinite`. Each group carries a trailing gap so `-50%` is
+exactly one group width, making the loop seamless. Durations are derived from the measured
+group widths at 50px/s: **29.2s** for the marquee (1461px) and **25.8s** for the logos
+(1289px). `prefers-reduced-motion: reduce` disables both.
+
+*Open question:* `tickerEffectHoverModifier: 100` is passed straight into the runtime as a
+raw multiplier, which would make hovering 100× faster — almost certainly meant as "100%",
+i.e. unchanged. The clone does not change ticker speed on hover.
 
 ## Asset inventory (all recovered, none missing)
 

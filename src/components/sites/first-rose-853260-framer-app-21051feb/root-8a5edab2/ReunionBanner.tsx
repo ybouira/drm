@@ -32,7 +32,7 @@ export function ReunionBanner() {
             href="https://schedule.fillout.com/t/uGGCRZmyGvus"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-[34px] w-fit items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black"
+            className="inline-flex h-[34px] w-fit items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
           >
             Join us →
           </a>

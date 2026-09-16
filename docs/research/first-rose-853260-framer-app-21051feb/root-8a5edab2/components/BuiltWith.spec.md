@@ -49,14 +49,21 @@ section  (transparent, flex column, gap 30px, padding 0)
 - **overflow: `clip`**
 - Inner track: `max-width: 100%`, **`transform: translateX(-60px)`**
 
-### Ticker behavior — IMPORTANT
-This is a Framer Ticker component, but it **does not animate**. The track's transform was
-sampled 8 times over 2 seconds while the section was in the viewport and stayed at a
-constant `matrix(1, 0, 0, 1, -60, 0)`.
+### Ticker behavior — IT ANIMATES
 
-**Build it as a static row with a `-60px` horizontal offset and `overflow: clip`.** Do not
-add a marquee/scrolling animation. The `-60px` offset means the first logo is partially
-clipped at the left edge (its left edge sits at `-60px`).
+> **Correction.** This was previously recorded as static because the track's transform read
+> as a constant `translateX(-60px)`. That sample was taken in a background tab with
+> `requestAnimationFrame` suspended. `-60px` is the ticker's *initial* offset — it is
+> already in the server-rendered HTML.
+
+A Framer **Ticker**, configured `tickerEffectVelocity: 50`, `tickerEffectGap: 60px`,
+`tickerEffectOverflow: clip`, `tickerEffectDraggable: false`. It scrolls **left at a
+constant 50px/s and loops**.
+
+**Implementation:** two identical groups in one track, each with a trailing `60px` gap, and
+a `linear infinite` keyframe translating the track `0 → -50%`. One group measures ~1229px
+of logos plus the trailing gap, so a pass is `(1229 + 60) / 50 ≈ 25.8s`. Disable under
+`prefers-reduced-motion: reduce`.
 
 ## Logos (9, in order)
 
@@ -78,7 +85,7 @@ no filter, `opacity: 1`.
 All have empty `alt`. All are `loading="lazy"` on the live site.
 
 ## States & Behaviors
-- **Scroll:** N/A — static; the ticker does not move.
+- **Scroll:** the ticker runs continuously at 50px/s regardless of scroll position.
 - **Hover:** **none.** The logos render at `opacity: 1` with `filter: none`.
   The previous pass applied a grayscale-to-color hover effect — that was **invented** and
   must be removed.

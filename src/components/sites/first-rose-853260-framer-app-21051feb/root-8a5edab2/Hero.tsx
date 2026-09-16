@@ -26,13 +26,13 @@ export function Hero() {
           <div className="flex h-[34px] flex-row items-center gap-[15px]">
             <Link
               href="./#four-pillar"
-              className="inline-flex h-[34px] items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black"
+              className="inline-flex h-[34px] items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
             >
               How we work
             </Link>
             <Link
               href="./#program-phases"
-              className="inline-flex h-[34px] items-center justify-center rounded-[5px] border border-white bg-transparent px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-white"
+              className="inline-flex h-[34px] items-center justify-center rounded-[5px] border border-white bg-transparent px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-white hover:border-transparent hover:bg-white hover:text-black transition-[box-shadow,background-color,color,border-color] duration-200 ease-out"
             >
               Program Phases
             </Link>

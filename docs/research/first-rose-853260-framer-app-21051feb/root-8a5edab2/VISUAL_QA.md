@@ -136,3 +136,87 @@ discrepancy traced to container widths instead.
   source. See `ARTIFACT_MANIFEST.md`.
 - **`./case-studies`, `./about-us` and `./case-studies/<slug>`** are linked but do not exist
   in this single-page clone and will 404. Only `/` was in scope.
+
+
+---
+
+# Round 2 — behavioral defects reported by the user
+
+The first QA round verified geometry to the pixel but accepted three wrong conclusions
+about *behavior*. All three shared one root cause, now documented at the top of
+`BEHAVIORS.md`: the automation tab runs with `visibilityState: "hidden"` and never fires
+`requestAnimationFrame`. On a Framer site that freezes every ticker and every
+framer-motion variant, so sampling reports them as static.
+
+## 1. Hover states were missing entirely
+
+**Reported:** "all hover interactions don't work."
+
+**Cause:** the first pass searched the CSSOM for `:hover`, found only Framer boilerplate,
+and concluded there were none — then instructed the builders not to invent any. Framer
+implements hover as JS motion variants, which are invisible to a CSS scan. Dispatching
+synthetic pointer events did not help either, because the variant is applied through the
+frozen rAF loop.
+
+**Fixed by** reading the variants out of the site's compiled component source. Nine button
+hover states and two card glows are now implemented; see the tables in `BEHAVIORS.md`.
+Verified present in the generated CSS:
+`.hover\:bg-[#CCCCCC]`, `.hover\:bg-[#4418AB]`, `.hover\:border-transparent` +
+`.hover\:bg-white` + `.hover\:text-black`, and both
+`0 0 20px 6px rgba(112,56,242,0.5)` shadows.
+
+Nav links, footer links and the logo strip genuinely have no hover variant.
+
+## 2. Ticker strips did not move
+
+**Reported:** "the carousel sliders don't slide and are static."
+
+**Cause:** both strips were sampled at a constant `translateX(-60px)` / `translateX(-30px)`
+and recorded as static. Those are the tickers' *initial* offsets, present in the
+server-rendered HTML; the rAF loop that advances them was suspended.
+
+**Fixed by** reading the Ticker configuration from source — `tickerEffectVelocity: 50`,
+gaps `30px` / `60px`, `overflow: clip`, looping — and implementing a CSS marquee that
+matches. Verified in the clone: both tracks report `playState: "running"` with durations
+`29.2s` and `25.8s`, over measured group widths of `1461px` and `1289px`, which divide by
+exactly **50px/s**. Disabled under `prefers-reduced-motion: reduce`.
+
+## 3. Program Phases 01 and 04 had no copy
+
+**Reported:** "we miss the copy for points 1 and 4 in the program phases."
+
+**Cause:** at ≥1440px the live desktop stage really does omit phase 01's text and phase
+04's body — that part was measured correctly. What was missed is that **below 1440px the
+site renders a different section altogether**, "How the Founder Program *actually* works",
+with all four phases named and written out. Framer swaps it in by conditional rendering, so
+it is absent from the desktop DOM and a desktop-only scan cannot see it. The first pass
+then reused the desktop's partial content for its own responsive fallback.
+
+**Fixed by** recovering the alternate section's copy from the compiled source and building
+it as the real sub-1440px layout. Full copy is in `components/ProgramPhases.spec.md`.
+
+## Also fixed in this round
+
+- **`icons.tsx` emitted invalid JSX attributes** — `flood-opacity` and
+  `color-interpolation-filters` were left kebab-cased by the generator, producing two React
+  warnings on every render. Now camelCased.
+- **BuildFirstStartup card images** passed intrinsic `width`/`height` while CSS resized the
+  box, producing Next.js aspect-ratio warnings. Switched to `fill`, which is correct for an
+  absolutely-positioned cover layer.
+- **`BEHAVIORS.md` contradicted `Faq.spec.md`** on whether the accordion allows multiple
+  open rows. The spec was right (it does); the summary has been corrected.
+
+## Geometry after round 2
+
+Re-measured to confirm no regression: page height and all section heights track the
+original, with the only deltas being the known ProgramPhases −1px sub-pixel rounding and
+the Hero's `100vh` tracking whatever the current window height is.
+
+## Still not verified
+
+Tablet and mobile remain **visually unverified** — the viewport could not be resized in
+this environment. That gap is what allowed the Program Phases responsive variant to go
+unnoticed for a whole round, so it is worth treating as the top remaining risk: there may
+be other sections that swap layout or copy below 1440px. The reliable way to check is to
+diff the page's compiled component source for conditionally-rendered blocks, as was done
+for Program Phases here.

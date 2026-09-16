@@ -48,7 +48,7 @@ const SECONDARY: CaseStudy[] = [
 ];
 
 const CARD_CLASS =
-  "relative flex h-[400px] w-full flex-col items-end justify-between overflow-hidden rounded-[10px] p-[20px] min-[810px]:h-[522px] min-[810px]:p-[40px]";
+  "relative flex h-[400px] w-full flex-col items-end justify-between overflow-hidden rounded-[10px] p-[20px] shadow-none hover:shadow-[0_0_20px_6px_rgba(112,56,242,0.5)] transition-[box-shadow,background-color,color,border-color] duration-200 ease-out min-[810px]:h-[522px] min-[810px]:p-[40px]";
 
 const GRADIENT_CLASS =
   "absolute inset-0 overflow-clip rounded-[10px] bg-[linear-gradient(rgba(255,255,255,0)_0%,rgba(0,0,0,0)_51.1736%,rgba(0,0,0,0.25)_61.4645%,rgba(0,0,0,0.7)_76.7427%,rgba(0,0,0,0.75)_100%)]";
@@ -130,7 +130,7 @@ export function CaseStudies() {
 
         <Link
           href="./case-studies"
-          className="inline-flex items-center justify-center gap-[15px] rounded-[5px] bg-[#7138f2] px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] tracking-[-0.28px] text-white"
+          className="inline-flex items-center justify-center gap-[15px] rounded-[5px] bg-[#7138f2] px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] tracking-[-0.28px] text-white hover:bg-[#4418AB] transition-colors duration-200 ease-out"
         >
           All case studies &#8594;
         </Link>

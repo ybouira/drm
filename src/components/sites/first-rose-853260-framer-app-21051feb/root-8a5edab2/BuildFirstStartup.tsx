@@ -73,15 +73,18 @@ export function BuildFirstStartup() {
           {CARDS.map((card) => (
             <div
               key={card.label}
-              className="relative flex h-[450px] w-full flex-col items-center justify-end gap-[10px] rounded-[10px] p-[20px] shadow-[inset_0_0_0_2px_rgba(80,80,80,0.2)] min-[1440px]:w-[300px]"
+              className="relative flex h-[450px] w-full flex-col items-center justify-end gap-[10px] rounded-[10px] p-[20px] shadow-[inset_0_0_0_2px_rgba(80,80,80,0.2)] hover:shadow-[inset_0_0_0_2px_rgba(80,80,80,0.2),0_0_20px_6px_rgba(112,56,242,0.5)] transition-[box-shadow,background-color,color,border-color] duration-200 ease-out min-[1440px]:w-[300px]"
             >
               <div className="absolute inset-0 overflow-clip rounded-[10px]">
+                {/* An absolutely-positioned cover layer, so `fill` is the right
+                    API here — passing intrinsic width/height alongside CSS that
+                    resizes the box makes Next warn about the aspect ratio. */}
                 <Image
                   src={card.image}
                   alt=""
-                  width={card.imageWidth}
-                  height={card.imageHeight}
-                  className="h-full w-full rounded-[10px] object-cover"
+                  fill
+                  sizes="(min-width: 1440px) 300px, (min-width: 810px) 50vw, 100vw"
+                  className="rounded-[10px] object-cover"
                 />
               </div>
               <div className="absolute inset-0 z-0 rounded-[10px] bg-[linear-gradient(rgba(255,255,255,0)_0%,rgba(255,252,252,0)_46.5484%,rgba(0,0,0,0.6)_76.1331%,rgba(0,0,0,0.9)_100%)]" />

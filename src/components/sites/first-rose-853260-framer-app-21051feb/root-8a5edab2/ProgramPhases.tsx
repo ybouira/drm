@@ -89,6 +89,45 @@ const PHASES: readonly Phase[] = [
   },
 ];
 
+type ResponsivePhase = {
+  numeral: string;
+  title: string;
+  body: string;
+  icon: ReactNode;
+};
+
+/**
+ * The sub-1440px section the live site swaps in ("How the Founder Program
+ * actually works"). Copy is verbatim from the site's compiled component source;
+ * unlike the desktop stage, all four phases are named and described here.
+ */
+const RESPONSIVE_PHASES: readonly ResponsivePhase[] = [
+  {
+    numeral: "01",
+    title: "Founder Exploration",
+    body: "You enter the program and start working on your idea. Monthly workshops, envisioning sessions, and biweekly check-ins keep you moving towards the proof table.",
+    icon: <PhaseOneIcon width={23} height={33} />,
+  },
+  {
+    numeral: "02",
+    title: "Proof Table",
+    body: "Every month, you present your progress in front of the Drommer team and external network. You get challenged, supported, and directed. This is where weak ideas get stronger and real founders emerge.",
+    icon: <PhaseTwoIcon width={30} height={30} />,
+  },
+  {
+    numeral: "03",
+    title: "Analysis Phase",
+    body: "If you made worthwhile progress and passed the proof table we start going deeper and we start working together. We investigate the market, map assumptions, and gather real validation signals. The goal: move from intuition to evidence.",
+    icon: <PhaseThreeIcon width={32} height={33} />,
+  },
+  {
+    numeral: "04",
+    title: "Venture Building",
+    body: "When Drommer and you agree the opportunity is worth pursuing, Phase 2 begins. You build the startup with us. Operational support, legal, accounting, fundraising, all in.",
+    icon: <PhaseFourIcon width={25} height={26} />,
+  },
+];
+
 const NUMERAL_CLASS =
   "bg-[linear-gradient(rgb(210,210,210)_0%,rgb(245,245,247)_67.3077%,rgb(255,255,255)_100%)] bg-clip-text font-[family-name:var(--font-inter)] text-[60px] font-bold leading-[72px] text-transparent";
 
@@ -117,8 +156,15 @@ export function ProgramPhases() {
           <p className="text-[12px] font-bold leading-[14.4px] tracking-[2.4px] text-[#7138f2]">
             PROGRAM PHASES
           </p>
+          {/* The sub-1440px section carries a different headline on the live
+              site: "How the Founder Program actually works". */}
           <p className="text-center text-[40px] font-bold leading-[48px] text-[#0d0d0f]">
-            How the Founder Program works
+            <span className="min-[1440px]:hidden">
+              How the Founder Program actually works
+            </span>
+            <span className="hidden min-[1440px]:inline">
+              How the Founder Program works
+            </span>
           </p>
         </div>
         <p className="w-full text-center text-[18px] font-normal leading-[21.6px] text-[#505050]">
@@ -175,26 +221,20 @@ export function ProgramPhases() {
         </div>
       </div>
 
-      {/* Tablet / mobile: the 1233px stage cannot survive, so stack vertically
-          and drop the connector. */}
+      {/* Below 1440px the live site does not shrink the stage — it swaps in a
+          different section titled "How the Founder Program actually works",
+          with all four phases named and written out. Framer renders it
+          conditionally, so it is absent from the desktop DOM entirely. */}
       <div className="flex w-full max-w-[1440px] flex-col items-start gap-[40px] px-6 min-[1440px]:hidden">
-        {PHASES.map((phase) => (
+        {RESPONSIVE_PHASES.map((phase) => (
           <div
-            key={phase.id}
+            key={phase.numeral}
             className="flex w-full flex-col items-start gap-[15px]"
           >
             <PhaseNode>{phase.icon}</PhaseNode>
-            {phase.text ? (
-              <>
-                <p className={NUMERAL_CLASS}>{phase.text.numeral}</p>
-                <p className={TITLE_CLASS}>{phase.text.title}</p>
-                {phase.text.body ? (
-                  <p className={`max-w-[400px] ${BODY_CLASS}`}>
-                    {phase.text.body}
-                  </p>
-                ) : null}
-              </>
-            ) : null}
+            <p className={NUMERAL_CLASS}>{phase.numeral}</p>
+            <p className={TITLE_CLASS}>{phase.title}</p>
+            <p className={`max-w-[520px] ${BODY_CLASS}`}>{phase.body}</p>
           </div>
         ))}
       </div>

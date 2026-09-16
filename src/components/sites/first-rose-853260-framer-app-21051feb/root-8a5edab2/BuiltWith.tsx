@@ -69,6 +69,29 @@ const LOGOS: Logo[] = [
   },
 ];
 
+/** One pass of the logo ticker, with a trailing gap so two groups tile seamlessly. */
+function LogoGroup({ ariaHidden }: { ariaHidden: boolean }) {
+  return (
+    <ul
+      aria-hidden={ariaHidden || undefined}
+      className="flex shrink-0 flex-row items-center gap-[60px] pr-[60px]"
+    >
+      {LOGOS.map((logo) => (
+        <li key={logo.file} className="shrink-0">
+          <Image
+            src={`${ASSET_BASE}/${logo.file}`}
+            alt=""
+            width={logo.width}
+            height={logo.height}
+            sizes={`${logo.width}px`}
+            className={`max-w-none object-cover ${logo.box}`}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function BuiltWith() {
   return (
     <section className="flex w-full flex-col items-start justify-center gap-[30px] p-0">
@@ -82,22 +105,14 @@ export function BuiltWith() {
           </p>
         </div>
 
-        {/* Framer ticker that does not animate: a static clipped row offset by -60px. */}
-        <div className="flex w-full flex-row items-center justify-center min-[810px]:h-[36px] min-[810px]:justify-start min-[810px]:overflow-clip">
-          <ul className="flex flex-row flex-wrap items-center justify-center gap-x-[40px] gap-y-[20px] min-[810px]:max-w-full min-[810px]:flex-nowrap min-[810px]:justify-start min-[810px]:gap-x-[60px] min-[810px]:gap-y-[60px] min-[810px]:-translate-x-[60px]">
-            {LOGOS.map((logo) => (
-              <li key={logo.file} className="shrink-0">
-                <Image
-                  src={`${ASSET_BASE}/${logo.file}`}
-                  alt=""
-                  width={logo.width}
-                  height={logo.height}
-                  sizes={`${logo.width}px`}
-                  className={`max-w-none object-cover ${logo.box}`}
-                />
-              </li>
-            ))}
-          </ul>
+        {/* Framer Ticker: scrolls left at 50px/s, looping. One group is ~1229px
+            of logos plus the 60px trailing gap, so a pass takes
+            (1229 + 60) / 50 ≈ 25.8s. */}
+        <div className="flex h-[36px] w-full flex-row items-center justify-start overflow-clip">
+          <div className="drommer-ticker-track flex w-max animate-[drommer-ticker_25.8s_linear_infinite] items-center">
+            <LogoGroup ariaHidden={false} />
+            <LogoGroup ariaHidden />
+          </div>
         </div>
       </div>
     </section>
