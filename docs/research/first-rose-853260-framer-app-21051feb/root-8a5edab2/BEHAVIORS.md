@@ -449,3 +449,51 @@ framing away from the original — prefer fixing `sizes`.
 founder images are lazy and this automation tab often reports `naturalWidth 0`; set
 `img.loading = "eager"` and reassign `img.src` to force the fetch before measuring, and never
 call `img.decode()` here — it never settles in a hidden tab and freezes the renderer.
+
+## About Us — EXPERIENCE, three different layouts
+
+The six floating photos are not one layout that scales. The *arrangement* changes per
+breakpoint, which is easy to miss because the automation tab cannot be resized (see the
+measuring note) — read it from the live stylesheet's three media blocks instead.
+
+| Breakpoint | Photo size | Arrangement |
+| ---------- | ---------- | ----------- |
+| `>= 1440` (base) | 237x108 | three down the left edge, three down the right |
+| `810 - 1439.98` | 237x108 | three along the top, three along the bottom |
+| `<= 809.98` | **100x60** | same top/bottom bands, tighter |
+
+Stage `.framer-yrid73`: `width: 1190px; max-width: 1440px; height: 364px; position: relative`
+at base, and `width: 100%` in both narrower blocks — the height stays 364 everywhere. The
+section `.framer-8lpjek` is `padding: 100px` / `100px 40px` / `100px 20px` and `overflow: clip`,
+giving a section height of 564 (364 + 200). The copy `.framer-1z10tj6` is
+`position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)` with
+`width: min-content` (resolving to 570) and `width: 100%` below 810.
+
+| Photo | `>= 1440` | `810-1439` | `<= 809` |
+| ----- | --------- | ---------- | -------- |
+| NnI8 | `top:0; left:46` | `top:-70; left:calc(49.4118% - 118.5px)` | `top:-44; left:calc(50.2857% - 50px)` |
+| KV7w | `top:calc(50% - 54px); left:0` | `top:-22; left:-30` | `top:-14; left:1` |
+| K4yx | `bottom:0; left:46` | `bottom:-60; left:-30` | `bottom:-34; left:1` |
+| o4MQ | `top:0; left:907` | `top:-34; right:-23` | `bottom:-32; right:0` |
+| Rumx | `top:calc(50% - 54px); right:0` | `bottom:-52; right:-21` | `top:-13; right:-1` |
+| SGuF | `bottom:0; left:907` | `bottom:-86; left:calc(49.589% - 118.5px)` | `bottom:-60; left:calc(50% - 50px)` |
+
+Note `o4MQ` and `Rumx` swap which band they sit in between tablet and mobile, and several
+photos switch anchor (`top` <-> `bottom`, `left` <-> `right`) between breakpoints. In a
+mobile-first framework each switch needs the opposite property explicitly reset to `auto`,
+or the narrower breakpoint's value keeps applying.
+
+The clone previously hid all six below 810px and used a 1225-wide stage with
+`left 64 / 18 / 64`, none of which is what the live site does.
+
+### Measuring trap — the viewport cannot be resized
+
+`resize_window` reports success but `window.innerWidth` never changes, so per-width visual
+sweeps are impossible. Two ways around it, both used here:
+
+1. Read the per-breakpoint rules straight out of the live CSS, walking `@media` blocks and
+   matching the generated `framer-*` class of each element.
+2. Verify by embedding the clone in a **same-origin iframe** of the target width — media
+   queries respond to the iframe's own viewport, and `contentDocument` is readable. Remember
+   the iframe's scrollbar: at `width=944` the inner viewport is 929, so the stage measures
+   849, not 864.

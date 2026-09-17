@@ -50,16 +50,72 @@ const FOUNDERS = [
 ] as const;
 
 // `float` is the Framer loop duration assigned to each photo on the live page.
-const EXPERIENCE_LEFT = [
-  { src: `${SHARED}/NnI8eZIQWnVfJqzfA5cXZcl43A.webp`, className: "left-[64px] top-0", float: "drommer-float-1400" },
-  { src: `${SHARED}/KV7wZXrvUFv3TgxBmRm7TxOeaM4.webp`, className: "left-[18px] top-[128px]", float: "drommer-float-1000" },
-  { src: `${SHARED}/K4yxaq4uvgHvwhVor2ueAAxLDY.webp`, className: "left-[64px] top-[256px]", float: "drommer-float-1200" },
-] as const;
-
-const EXPERIENCE_RIGHT = [
-  { src: `${SHARED}/o4MQIcCZBEDnB0zOc5GUPwXKa8s.webp`, className: "right-[63px] top-0", float: "drommer-float-1200" },
-  { src: `${SHARED}/Rumxdvcszr1fUl5tFw6lsW5Khag.webp`, className: "right-[17px] top-[128px]", float: "drommer-float-1400" },
-  { src: `${SHARED}/SGuFxtmWFRwjWEZszLuJxB0Rk.webp`, className: "right-[63px] top-[256px]", float: "drommer-float-1000" },
+/**
+ * The six floating photos around the EXPERIENCE copy. The live site lays these
+ * out three different ways, and it is the *arrangement* that changes, not just
+ * the scale:
+ *
+ *   >= 1440    237x108, three down the left edge and three down the right
+ *   810-1439   237x108, three along the top and three along the bottom
+ *   <= 809     100x60, the same top/bottom bands, tighter
+ *
+ * Every number below is read from the three media blocks in the live
+ * stylesheet. The stage is 364px tall and these offsets are deliberately
+ * negative, so the photos hang outside it into the section's 100px padding.
+ *
+ * Where a photo switches anchor between breakpoints (top <-> bottom, or
+ * left <-> right) the opposite property is explicitly reset to `auto`,
+ * otherwise the narrower breakpoint's value keeps applying.
+ */
+const EXPERIENCE_PHOTOS = [
+  {
+    src: `${SHARED}/NnI8eZIQWnVfJqzfA5cXZcl43A.webp`,
+    float: "drommer-float-1400",
+    position:
+      "top-[-44px] left-[calc(50.2857%_-_50px)] " +
+      "min-[810px]:top-[-70px] min-[810px]:left-[calc(49.4118%_-_118.5px)] " +
+      "min-[1440px]:top-0 min-[1440px]:left-[46px]",
+  },
+  {
+    src: `${SHARED}/KV7wZXrvUFv3TgxBmRm7TxOeaM4.webp`,
+    float: "drommer-float-1000",
+    position:
+      "top-[-14px] left-[1px] " +
+      "min-[810px]:top-[-22px] min-[810px]:left-[-30px] " +
+      "min-[1440px]:top-[calc(50%_-_54px)] min-[1440px]:left-0",
+  },
+  {
+    src: `${SHARED}/K4yxaq4uvgHvwhVor2ueAAxLDY.webp`,
+    float: "drommer-float-1200",
+    position:
+      "bottom-[-34px] left-[1px] " +
+      "min-[810px]:bottom-[-60px] min-[810px]:left-[-30px] " +
+      "min-[1440px]:bottom-0 min-[1440px]:left-[46px]",
+  },
+  {
+    src: `${SHARED}/o4MQIcCZBEDnB0zOc5GUPwXKa8s.webp`,
+    float: "drommer-float-1200",
+    position:
+      "bottom-[-32px] right-0 " +
+      "min-[810px]:top-[-34px] min-[810px]:bottom-auto min-[810px]:right-[-23px] " +
+      "min-[1440px]:top-0 min-[1440px]:left-[907px] min-[1440px]:right-auto",
+  },
+  {
+    src: `${SHARED}/Rumxdvcszr1fUl5tFw6lsW5Khag.webp`,
+    float: "drommer-float-1400",
+    position:
+      "top-[-13px] right-[-1px] " +
+      "min-[810px]:top-auto min-[810px]:bottom-[-52px] min-[810px]:right-[-21px] " +
+      "min-[1440px]:top-[calc(50%_-_54px)] min-[1440px]:bottom-auto min-[1440px]:right-0",
+  },
+  {
+    src: `${SHARED}/SGuFxtmWFRwjWEZszLuJxB0Rk.webp`,
+    float: "drommer-float-1000",
+    position:
+      "bottom-[-60px] left-[calc(50%_-_50px)] " +
+      "min-[810px]:bottom-[-86px] min-[810px]:left-[calc(49.589%_-_118.5px)] " +
+      "min-[1440px]:bottom-0 min-[1440px]:left-[907px]",
+  },
 ] as const;
 
 /**
@@ -168,26 +224,14 @@ export function AboutUsPage() {
           </div>
         </section>
 
-        <section className="bg-white px-5 py-[100px] min-[810px]:px-10 min-[1440px]:px-[100px]">
+        <section className="overflow-clip bg-white px-5 py-[100px] min-[810px]:px-10 min-[1440px]:px-[100px]">
           <div className={RAIL}>
-            <div className="relative mx-auto min-h-[364px] w-full max-w-[1225px]">
-              {EXPERIENCE_LEFT.map((photo) => (
-                <div
-                  key={photo.src}
-                  className={`drommer-float ${photo.float} absolute h-[108px] w-[237px] max-[809px]:hidden ${photo.className}`}
-                >
-                  <div className="relative h-full w-full overflow-hidden rounded-[10px] transition-[transform,box-shadow] duration-[400ms] ease-out hover:scale-105 hover:shadow-[0_0_10px_2px_rgba(112,56,242,0.5)]">
-                    <Image
-                      src={photo.src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="237px"
-                    />
-                  </div>
-                </div>
-              ))}
-              <div className="relative z-[1] mx-auto flex max-w-[570px] flex-col items-center gap-[15px] text-center">
+            {/* Stage: 1190x364 at desktop, full-width at and below 1439. The
+                photos anchor to its edges, so its height must be fixed. */}
+            <div className="relative mx-auto h-[364px] w-full min-[1440px]:w-[1190px]">
+              {/* Text first, as on the live page, and absolutely centred so the
+                  stage height stays 364 regardless of how the copy wraps. */}
+              <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[15px] text-center min-[810px]:w-[570px]">
                 <p className={LIGHT_LABEL}>{t.about.experienceEyebrow}</p>
                 <h2 className="text-[32px] font-bold leading-9 text-[#0d0d0f] min-[810px]:text-[40px] min-[810px]:leading-[48px]">
                   {t.about.experienceTitle}
@@ -196,10 +240,10 @@ export function AboutUsPage() {
                   {t.about.experienceBody}
                 </p>
               </div>
-              {EXPERIENCE_RIGHT.map((photo) => (
+              {EXPERIENCE_PHOTOS.map((photo) => (
                 <div
                   key={photo.src}
-                  className={`drommer-float ${photo.float} absolute h-[108px] w-[237px] max-[809px]:hidden ${photo.className}`}
+                  className={`drommer-float ${photo.float} absolute h-[60px] w-[100px] min-[810px]:h-[108px] min-[810px]:w-[237px] ${photo.position}`}
                 >
                   <div className="relative h-full w-full overflow-hidden rounded-[10px] transition-[transform,box-shadow] duration-[400ms] ease-out hover:scale-105 hover:shadow-[0_0_10px_2px_rgba(112,56,242,0.5)]">
                     <Image
@@ -207,7 +251,7 @@ export function AboutUsPage() {
                       alt=""
                       fill
                       className="object-cover"
-                      sizes="237px"
+                      sizes="(max-width: 809px) 100px, 237px"
                     />
                   </div>
                 </div>
