@@ -204,3 +204,73 @@ i.e. unchanged. The clone does not change ticker speed on hover.
   `background-image` data URIs.
 
 See `ARTIFACT_MANIFEST.md` for the full mapping.
+
+
+---
+
+## About Us — loop ("float") effects, 6 images
+
+The `/about-us` EXPERIENCE section animates. This is a **third** kind of Framer motion,
+distinct from the appear animations and the tickers documented above, and it is invisible
+to every observational method: the page has only one `[data-framer-appear-id]` (the
+platform badge), `document.getAnimations()` returns nothing, and the rAF loop that drives
+it is suspended in the automation tab.
+
+It was found by scanning the page's own compiled chunk for Framer's effect props
+(`targetOpacity`, `loopEffectEnabled`) — six hits, all on the EXPERIENCE photos.
+
+Per-image configuration, read from the source:
+
+```
+__framer__loop              { opacity: 1, scale: 1, rotate: 0, x: 0, y: -10 }
+__framer__loopEffectEnabled true
+__framer__loopRepeatType    "mirror"      -> animation-direction: alternate
+__framer__loopRepeatDelay   0
+__framer__loopPauseOffscreen true
+__framer__loopTransition    tween, ease [.44, 0, .56, 1]
+```
+
+So each photo drifts from `y: 0` to `y: -10px` and back, forever. The durations are
+staggered across the six so they do not move in lockstep:
+
+| # | Image | Duration |
+| - | ----- | -------- |
+| 1 | `NnI8eZIQWnVfJqzfA5cXZcl43A.webp` | `1.4s` |
+| 2 | `KV7wZXrvUFv3TgxBmRm7TxOeaM4.webp` | `1s` |
+| 3 | `K4yxaq4uvgHvwhVor2ueAAxLDY.webp` | `1.2s` |
+| 4 | `o4MQIcCZBEDnB0zOc5GUPwXKa8s.webp` | `1.2s` |
+| 5 | `Rumxdvcszr1fUl5tFw6lsW5Khag.webp` | `1.4s` |
+| 6 | `SGuFxtmWFRwjWEZszLuJxB0Rk.webp` | `1s` |
+
+Each also carries a **hover** variant:
+
+```
+{ scale: 1.05,
+  boxShadow: "0px 0px 10px 2px rgba(112, 56, 242, 0.5)",
+  transition: { type: "spring", duration: .4, bounce: .2 } }
+```
+
+Note the glow is `rgba(112, 56, 242, …)`, the same off-by-one purple used by the card
+hovers on the homepage.
+
+**Clone implementation:** a CSS `@keyframes drommer-float` translating `0 → -10px` with
+`animation-direction: alternate` and the exact easing, plus three duration classes. The
+float sits on the outer box and the hover scale/glow on an inner box, so the two transforms
+do not collide and the glow is not clipped. `prefers-reduced-motion: reduce` disables it.
+
+`loopPauseOffscreen` is **not** reproduced — a CSS animation cannot pause itself when
+scrolled out of view. Visually identical; costs a little idle compositing.
+
+### Method note
+
+Three different Framer motion systems have now been missed on this site by observation
+alone, each found only by reading the compiled component source:
+
+| Motion | Prop to grep for |
+| ------ | ---------------- |
+| Button / card hover variants | `"<id>-hover"` inside `variants:{…}` |
+| Ticker strips | `tickerEffectVelocity` |
+| Loop / float effects | `loopEffectEnabled`, `targetOpacity` |
+
+When asked whether something animates, grep the page's chunk for these before concluding
+it is static.

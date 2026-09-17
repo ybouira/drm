@@ -181,3 +181,45 @@
     animation: none !important;
   }
 }
+
+/* About Us — EXPERIENCE gallery float.
+   The six photos around the centred text each run a Framer "loop" effect,
+   read from the page's compiled source:
+     target        { y: -10 }          (from y: 0)
+     repeatType    mirror              -> animation-direction: alternate
+     transition    tween, ease [.44, 0, .56, 1]
+     duration      1s / 1.2s / 1.4s    (staggered across the six)
+     pauseOffscreen true
+   Framer pauses these when the section scrolls out of view; a CSS animation
+   cannot, which costs a little idle compositing but looks identical. */
+@keyframes drommer-float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.drommer-float {
+  animation-name: drommer-float;
+  animation-timing-function: cubic-bezier(0.44, 0, 0.56, 1);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.drommer-float-1000 {
+  animation-duration: 1s;
+}
+.drommer-float-1200 {
+  animation-duration: 1.2s;
+}
+.drommer-float-1400 {
+  animation-duration: 1.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drommer-float {
+    animation: none !important;
+  }
+}

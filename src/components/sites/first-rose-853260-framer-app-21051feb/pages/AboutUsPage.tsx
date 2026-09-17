@@ -57,16 +57,17 @@ const HQ_PHOTOS = [
   },
 ] as const;
 
+// `float` is the Framer loop duration assigned to each photo on the live page.
 const EXPERIENCE_LEFT = [
-  { src: `${SHARED}/NnI8eZIQWnVfJqzfA5cXZcl43A.webp`, className: "left-[64px] top-0" },
-  { src: `${SHARED}/KV7wZXrvUFv3TgxBmRm7TxOeaM4.webp`, className: "left-[18px] top-[128px]" },
-  { src: `${SHARED}/K4yxaq4uvgHvwhVor2ueAAxLDY.webp`, className: "left-[64px] top-[256px]" },
+  { src: `${SHARED}/NnI8eZIQWnVfJqzfA5cXZcl43A.webp`, className: "left-[64px] top-0", float: "drommer-float-1400" },
+  { src: `${SHARED}/KV7wZXrvUFv3TgxBmRm7TxOeaM4.webp`, className: "left-[18px] top-[128px]", float: "drommer-float-1000" },
+  { src: `${SHARED}/K4yxaq4uvgHvwhVor2ueAAxLDY.webp`, className: "left-[64px] top-[256px]", float: "drommer-float-1200" },
 ] as const;
 
 const EXPERIENCE_RIGHT = [
-  { src: `${SHARED}/o4MQIcCZBEDnB0zOc5GUPwXKa8s.webp`, className: "right-[63px] top-0" },
-  { src: `${SHARED}/Rumxdvcszr1fUl5tFw6lsW5Khag.webp`, className: "right-[17px] top-[128px]" },
-  { src: `${SHARED}/SGuFxtmWFRwjWEZszLuJxB0Rk.webp`, className: "right-[63px] top-[256px]" },
+  { src: `${SHARED}/o4MQIcCZBEDnB0zOc5GUPwXKa8s.webp`, className: "right-[63px] top-0", float: "drommer-float-1200" },
+  { src: `${SHARED}/Rumxdvcszr1fUl5tFw6lsW5Khag.webp`, className: "right-[17px] top-[128px]", float: "drommer-float-1400" },
+  { src: `${SHARED}/SGuFxtmWFRwjWEZszLuJxB0Rk.webp`, className: "right-[63px] top-[256px]", float: "drommer-float-1000" },
 ] as const;
 
 const RAIL =
@@ -182,15 +183,17 @@ export function AboutUsPage() {
               {EXPERIENCE_LEFT.map((photo) => (
                 <div
                   key={photo.src}
-                  className={`absolute h-[108px] w-[237px] overflow-hidden rounded-[10px] max-[809px]:hidden ${photo.className}`}
+                  className={`drommer-float ${photo.float} absolute h-[108px] w-[237px] max-[809px]:hidden ${photo.className}`}
                 >
-                  <Image
-                    src={photo.src}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="237px"
-                  />
+                  <div className="relative h-full w-full overflow-hidden rounded-[10px] transition-[transform,box-shadow] duration-[400ms] ease-out hover:scale-105 hover:shadow-[0_0_10px_2px_rgba(112,56,242,0.5)]">
+                    <Image
+                      src={photo.src}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="237px"
+                    />
+                  </div>
                 </div>
               ))}
               <div className="relative z-[1] mx-auto flex max-w-[570px] flex-col items-center gap-[15px] text-center">
@@ -205,15 +208,17 @@ export function AboutUsPage() {
               {EXPERIENCE_RIGHT.map((photo) => (
                 <div
                   key={photo.src}
-                  className={`absolute h-[108px] w-[237px] overflow-hidden rounded-[10px] max-[809px]:hidden ${photo.className}`}
+                  className={`drommer-float ${photo.float} absolute h-[108px] w-[237px] max-[809px]:hidden ${photo.className}`}
                 >
-                  <Image
-                    src={photo.src}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="237px"
-                  />
+                  <div className="relative h-full w-full overflow-hidden rounded-[10px] transition-[transform,box-shadow] duration-[400ms] ease-out hover:scale-105 hover:shadow-[0_0_10px_2px_rgba(112,56,242,0.5)]">
+                    <Image
+                      src={photo.src}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="237px"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
