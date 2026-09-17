@@ -29,10 +29,23 @@ import { DrommerWordmark } from "../shared/icons";
  * 20x2 bars at left calc(50% - 10px) and top 37.5% / 50% / 62.5% - 1px. Opening
  * moves the outer two to the centre (Framer animates the rotation through a
  * motion value rather than CSS, so the X is reproduced here with a transform).
+ *
+ * One deliberate deviation: the row collapses at **1000**, not the live 810.
+ * The live row needs 95 + 451 + 229 = 775px of content and only has 730px at
+ * 810, so the original clips its own CTA through the nav's overflow: hidden.
+ * This clone also carries a language toggle the live site has no equivalent
+ * for, pushing the requirement to about 819px. Collapsing at 1000 keeps every
+ * measurement above intact while making the bar actually usable in the band
+ * where it would otherwise be cut off.
  */
 
+/**
+ * `whitespace-nowrap` mirrors the live link's `white-space: pre`. Without it the
+ * labels wrap onto two lines in the 810-860 band, where the row is genuinely
+ * tighter than its content, and collide with the wordmark.
+ */
 const LINK_CLASS =
-  "h-[28px] rounded-none bg-transparent p-0 text-[14px] leading-[28px] font-medium tracking-[-0.14px] text-white transition-opacity duration-200 ease-out hover:opacity-70";
+  "h-[28px] shrink-0 rounded-none bg-transparent p-0 text-[14px] leading-[28px] font-medium tracking-[-0.14px] whitespace-nowrap text-white transition-opacity duration-200 ease-out hover:opacity-70";
 
 const BAR_CLASS =
   "absolute left-[calc(50%_-_10px)] h-[2px] w-[20px] bg-white transition-all duration-300 ease-out";
@@ -45,7 +58,7 @@ export function Navbar() {
   // is open, drop the state so the row layout is never left in "open".
   // (Every link closes it on click, so navigation needs no effect of its own.)
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 810px)");
+    const wide = window.matchMedia("(min-width: 1000px)");
     const onChange = (event: MediaQueryListEvent) => {
       if (event.matches) setOpen(false);
     };
@@ -72,16 +85,16 @@ export function Navbar() {
   return (
     <div className="fixed top-0 left-0 z-[2] w-full">
       <nav
-        className={`relative flex flex-col items-center justify-center gap-0 bg-black/45 px-[20px] py-[12px] backdrop-blur-[8px] transition-[max-height] duration-300 ease-out min-[810px]:h-[58px] min-[810px]:max-h-none min-[810px]:flex-row min-[810px]:gap-[20px] min-[810px]:overflow-hidden min-[810px]:px-[40px] min-[1440px]:px-[100px] ${
+        className={`relative flex flex-col items-center justify-center gap-0 bg-black/45 px-[20px] py-[12px] backdrop-blur-[8px] transition-[max-height] duration-300 ease-out min-[1000px]:h-[58px] min-[1000px]:max-h-none min-[1000px]:flex-row min-[1000px]:gap-[20px] min-[1000px]:overflow-hidden min-[1000px]:px-[40px] min-[1440px]:px-[100px] ${
           open
             ? "max-h-[100dvh] overflow-auto overscroll-contain"
             : "h-[64px] overflow-hidden"
         }`}
       >
-        <div className="flex w-full flex-none flex-col items-start min-[810px]:w-px min-[810px]:max-w-[1440px] min-[810px]:flex-1 min-[810px]:flex-row min-[810px]:items-center min-[810px]:justify-between">
+        <div className="flex w-full flex-none flex-col items-start min-[1000px]:w-px min-[1000px]:max-w-[1440px] min-[1000px]:flex-1 min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:justify-between">
           {/* Logo row — full width with the toggle pushed to the far side below
               810, shrink-to-fit beside the links above it. */}
-          <div className="flex h-[40px] w-full flex-row items-center justify-between min-[810px]:h-auto min-[810px]:w-min min-[810px]:justify-start">
+          <div className="flex h-[40px] w-full flex-row items-center justify-between min-[1000px]:h-auto min-[1000px]:w-min min-[1000px]:justify-start">
             <Link
               href="/"
               aria-label="Drommer"
@@ -97,7 +110,7 @@ export function Navbar() {
               aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
               aria-expanded={open}
               aria-controls="drommer-mobile-menu"
-              className="relative h-[44px] w-[44px] cursor-pointer overflow-hidden min-[810px]:hidden"
+              className="relative h-[44px] w-[44px] cursor-pointer overflow-hidden min-[1000px]:hidden"
             >
               <span
                 className={`${BAR_CLASS} ${
@@ -123,7 +136,7 @@ export function Navbar() {
 
           <div
             id="drommer-mobile-menu"
-            className={`w-full flex-col items-start gap-[10px] pt-[40px] min-[810px]:flex min-[810px]:w-auto min-[810px]:flex-row min-[810px]:items-center min-[810px]:gap-[30px] min-[810px]:pt-0 ${
+            className={`w-full flex-col items-start gap-[10px] pt-[40px] min-[1000px]:flex min-[1000px]:w-auto min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:gap-[30px] min-[1000px]:pt-0 ${
               open ? "flex" : "hidden"
             }`}
           >
@@ -140,7 +153,7 @@ export function Navbar() {
           </div>
 
           <div
-            className={`w-full flex-col items-start gap-[20px] pt-[40px] pb-[20px] text-white min-[810px]:flex min-[810px]:w-auto min-[810px]:flex-row min-[810px]:items-center min-[810px]:gap-[14px] min-[810px]:pt-0 min-[810px]:pb-0 ${
+            className={`w-full flex-col items-start gap-[20px] pt-[40px] pb-[20px] text-white min-[1000px]:flex min-[1000px]:w-auto min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:gap-[14px] min-[1000px]:pt-0 min-[1000px]:pb-0 ${
               open ? "flex" : "hidden"
             }`}
           >
@@ -150,7 +163,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className="inline-flex h-[34px] w-full items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black transition-colors duration-200 ease-out hover:bg-[#CCCCCC] min-[810px]:w-auto"
+              className="inline-flex h-[34px] w-full shrink-0 items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] whitespace-nowrap text-black transition-colors duration-200 ease-out hover:bg-[#CCCCCC] min-[1000px]:w-auto"
             >
               {t.common.applyToBuild}
             </a>
