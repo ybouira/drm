@@ -150,8 +150,11 @@ export function AboutUsPage() {
         </section>
 
         <section className="bg-[#0d0d0f] px-5 pb-[60px] pt-[60px] min-[810px]:px-10 min-[1440px]:px-[100px]">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-[50px] min-[810px]:flex-row min-[810px]:items-start">
-            <div className="flex w-full flex-col gap-[30px] min-[810px]:w-[650px] min-[810px]:shrink-0">
+          {/* The live row goes side-by-side only at 1440; both narrower blocks
+              set flex-direction: column. Pairing a 650px column with a 525px one
+              at 810 overflowed the viewport horizontally. */}
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[50px] min-[1440px]:flex-row min-[1440px]:items-center">
+            <div className="flex w-full flex-col gap-[30px] min-[1440px]:w-px min-[1440px]:flex-1">
               <p className={DARK_LABEL}>{t.about.originEyebrow}</p>
               <h2 className="text-[32px] font-bold leading-9 text-white min-[810px]:text-[40px] min-[810px]:leading-[48px]">
                 {t.about.originTitle}
@@ -161,7 +164,7 @@ export function AboutUsPage() {
                 <p>{t.about.originP2}</p>
               </div>
             </div>
-            <div className="relative h-[347px] w-full overflow-hidden rounded-[10px] min-[810px]:w-[525px] min-[810px]:shrink-0">
+            <div className="relative h-[230px] w-full overflow-hidden rounded-[10px] min-[810px]:h-[347px] min-[1440px]:w-[525px] min-[1440px]:shrink-0">
               <Image
                 src={`${SHARED}/zszDJs4t20KDd2Yhzzt9XYTF0.webp`}
                 alt=""
@@ -178,9 +181,11 @@ export function AboutUsPage() {
 
         <MarqueeStrip />
 
-        <section className="bg-[linear-gradient(rgb(13,13,15)_0%,rgb(65,32,140)_54.8077%)] px-5 py-[100px] min-[810px]:px-10 min-[1440px]:px-[100px]">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-[50px] min-[810px]:flex-row min-[810px]:items-start">
-            <div className="relative h-[347px] w-full overflow-hidden rounded-[10px] min-[810px]:w-[525px] min-[810px]:shrink-0">
+        {/* Live padding is 60px 20px / 60px 40px / 100px — the vertical value
+            only reaches 100 at 1440. */}
+        <section className="bg-[linear-gradient(rgb(13,13,15)_0%,rgb(65,32,140)_54.8077%)] px-5 py-[60px] min-[810px]:px-10 min-[1440px]:px-[100px] min-[1440px]:py-[100px]">
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-[50px] min-[1440px]:flex-row min-[1440px]:items-center">
+            <div className="relative h-[230px] w-full overflow-hidden rounded-[10px] min-[810px]:h-[347px] min-[1440px]:w-[525px] min-[1440px]:shrink-0">
               <Image
                 src={`${SHARED}/DndFfqueoQyufviaWPORg4Y10pg.webp`}
                 alt=""
@@ -191,7 +196,7 @@ export function AboutUsPage() {
                 sizes="660px"
               />
             </div>
-            <div className="flex w-full flex-col gap-[30px] min-[810px]:w-[650px] min-[810px]:shrink-0">
+            <div className="flex w-full flex-col gap-[30px] min-[1440px]:w-px min-[1440px]:flex-1">
               <p className={DARK_LABEL}>{t.about.visionEyebrow}</p>
               <h2 className="text-[32px] font-bold leading-9 text-white min-[810px]:text-[40px] min-[810px]:leading-[48px]">
                 {t.about.visionTitle}

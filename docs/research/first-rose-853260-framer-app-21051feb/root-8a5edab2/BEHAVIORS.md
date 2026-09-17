@@ -497,3 +497,24 @@ sweeps are impossible. Two ways around it, both used here:
    queries respond to the iframe's own viewport, and `contentDocument` is readable. Remember
    the iframe's scrollbar: at `width=944` the inner viewport is 929, so the stage measures
    849, not 864.
+
+### ORIGIN and VISION rows stack at 1440, not at 810
+
+Both two-column rows (`.framer-1wbi2e` origin, `.framer-cg5ett` vision) are
+`flex-direction: row` only in the base block. **Both** narrower media blocks set
+`flex-direction: column`, so the side-by-side layout exists only at 1440 and above.
+
+| Element | `>= 1440` | `810-1439` | `<= 809` |
+| ------- | --------- | ---------- | -------- |
+| Row | `flex-row; gap:50; max-width:1440; align-items:center` | `flex-direction:column` | `flex-direction:column` |
+| Text column | `flex:1 0 0; width:1px` (resolves to 865) | `flex:none; width:100%` | `flex:none; width:100%` |
+| Image column | `width:525px; height:347px` | `width:100%` | `width:100%; height:230px` |
+| Vision section | `padding:100px` | `padding:60px 40px` | `padding:60px 20px` |
+
+The clone had `min-[810px]:flex-row` with a hard-coded `w-[650px]` text column beside the
+525px image. At 810-1439 that is 650 + 50 + 525 = 1225px of `shrink-0` content in roughly
+850px of space, so **the whole page scrolled horizontally** — `scrollWidth` 1265 against a
+929 viewport. Note the text column is `flex:1`, not a fixed 650; at 1440 it resolves to 865.
+
+The vision section's *vertical* padding also only reaches 100px at 1440; below that it is 60.
+The origin section is 60px vertically at every width.
