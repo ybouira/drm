@@ -16,6 +16,8 @@ export const en = {
     forCompanies: "For Companies",
     caseStudies: "Case Studies",
     aboutUs: "About Us",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
   },
   footer: {
     company: "Company",

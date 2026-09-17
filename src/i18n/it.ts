@@ -18,6 +18,8 @@ export const it = {
     forCompanies: "Per le aziende",
     caseStudies: "Case study",
     aboutUs: "Chi siamo",
+    openMenu: "Apri il menu",
+    closeMenu: "Chiudi il menu",
   },
   footer: {
     company: "Azienda",
