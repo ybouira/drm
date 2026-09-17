@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./founder-challenge/founder-challenge.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -15,6 +16,14 @@
      getComputedStyle. Two distinct purples are in use and must not be merged:
      `purple` for buttons/eyebrows/dots, `purple-pill` for the case-study
      eyebrow and tag pills. */
+  --font-display: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-void: var(--void);
+  --color-surface: var(--surface);
+  --color-dark-foreground: var(--dark-foreground);
+  --color-dark-muted: var(--dark-muted);
+  --color-dark-border: var(--dark-border);
+  --shadow-purple: 0 0 30px color-mix(in oklab, var(--primary) 18%, transparent);
+  --radius-card: 0.75rem;
   --color-drommer-purple: #7138f2; /* rgb(113, 56, 242) */
   --color-drommer-purple-pill: #7844ee; /* rgb(120, 68, 238) */
   --color-drommer-purple-deep: #41208c; /* rgb(65, 32, 140)  — gradient end */

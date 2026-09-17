@@ -2,67 +2,9 @@
 
 import { useState } from "react";
 
-type FaqEntry = {
-  question: string;
-  answer: string;
-};
+import { useI18n } from "@/i18n/provider";
 
-/**
- * Copy is verbatim from https://first-rose-853260.framer.app/ — including the
- * duplicated "What happens if I don't pass a phase?" pair (rows 4 and 6), which
- * really does appear twice on the live site.
- */
-const ENTRIES: FaqEntry[] = [
-  {
-    question: "How long do projects usually last?",
-    answer:
-      "Validate: 8–12 weeks. Launch: 3–6 months. Scale: 6+ months. We define duration based on the outcome to achieve, not on billable hours.",
-  },
-  {
-    question: "Can you tell me more about the talent community?",
-    answer:
-      "Yes. For selected founders, the program is completely free. Drommer co-builds with you and invests in the launch. You don't pay to be here, you earn your place.",
-  },
-  {
-    question: "Do I need to have an idea before applying?",
-    answer:
-      "No. You don't need a finished idea to apply. What we look for is drive, curiosity, and the willingness to do the work. Ideas can be developed, the right mindset can't be taught. If you're serious about building, that's enough to start.",
-  },
-  {
-    question: "What happens if I don’t pass a phase?",
-    answer:
-      "Each phase includes formal evaluation checkpoints. If objectives are not met, the program ends. This system is designed to maintain high standards and work only with those who can sustain the required level.",
-  },
-  {
-    question: "When do I start working on my own startup?",
-    answer:
-      "From the early stages, you begin exploring and developing your own idea. As concrete signals emerge, you move into a more structured validation phase, with dedicated time and team support.",
-  },
-  {
-    question: "What happens if I don’t pass a phase?",
-    answer:
-      "Each phase includes formal evaluation checkpoints. If objectives are not met, the program ends. This system is designed to maintain high standards and work only with those who can sustain the required level.",
-  },
-  {
-    question: "What happens when the idea is validated?",
-    answer:
-      "If the initiative shows strong metrics, we proceed with the spin-off. Drommer invests in the launch and remains an operational partner. The startup is yours and you retain the majority.",
-  },
-  {
-    question:
-      "Do I need to cover accommodation for the monthly gatherings in Chiasso?",
-    answer:
-      "No. Accommodation and lunch during the monthly in-person gatherings are fully covered by Drommer.",
-  },
-];
-
-/**
- * The live site's toggle is a plus built from two bars that becomes a minus by
- * dropping the vertical bar — nothing rotates and nothing fades.
- */
 function ToggleIcon({ open }: { open: boolean }) {
-  // The bars live in a 40x40 box on the live site; that box is what gives the
-  // collapsed row its 60px height (40 + 10 + 10 of vertical padding).
   return (
     <span className="relative flex h-[40px] w-[40px] shrink-0 items-center justify-center">
       <span className="absolute h-[2px] w-[14px] rounded-[1px] bg-black" />
@@ -74,8 +16,7 @@ function ToggleIcon({ open }: { open: boolean }) {
 }
 
 export function Faq() {
-  // Rows toggle independently — opening one does not close the others, which
-  // matches the live site.
+  const { t } = useI18n();
   const [openRows, setOpenRows] = useState<readonly number[]>([]);
 
   const toggle = (index: number) =>
@@ -90,26 +31,20 @@ export function Faq() {
       <div className="flex w-full max-w-[1440px] flex-col gap-[40px] min-[810px]:flex-row min-[810px]:gap-[60px]">
         <div className="flex flex-col gap-[30px] min-[810px]:w-[560px] min-[810px]:shrink-0">
           <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-[#7138f2]">
-            FAQ
+            {t.faq.eyebrow}
           </p>
-          {/* This string's natural width is 560.13px in a 560px column, and the
-              live site lets that 0.13px overflow ride rather than wrapping. The
-              nowrap reproduces that single line at desktop. */}
           <p className="text-[32px] leading-[40px] font-bold text-[#0d0d0f] min-[810px]:text-[40px] min-[810px]:leading-[48px] min-[1440px]:whitespace-nowrap">
-            Everything you need to know
+            {t.faq.title}
           </p>
         </div>
 
         <div className="flex flex-1 flex-col gap-[5px] min-[810px]:max-w-[820px]">
-          {ENTRIES.map((entry, index) => {
+          {t.faq.entries.map((entry, index) => {
             const open = openRows.includes(index);
 
             return (
               <div
                 key={`${entry.question}-${index}`}
-                // The live site draws this rule on ::after, so it overlays the
-                // row rather than adding to its height — an inset shadow keeps
-                // the collapsed row at exactly 60px.
                 className="overflow-hidden shadow-[inset_0_-1px_0_0_#d2d2d2]"
               >
                 <button
@@ -125,13 +60,15 @@ export function Faq() {
                 </button>
 
                 <div
-                  className={`grid pr-[20px] transition-all duration-200 ease-out ${
+                  className={`grid transition-all duration-200 ease-out ${
                     open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   }`}
                 >
-                  <p className="overflow-hidden text-[15px] leading-[19.5px] font-normal tracking-[-0.15px] text-[#999999]">
-                    {entry.answer}
-                  </p>
+                  <div className="overflow-hidden">
+                    <p className="pr-[20px] pb-[20px] text-[15px] leading-[19.5px] font-normal tracking-[-0.15px] text-[#999999]">
+                      {entry.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
             );

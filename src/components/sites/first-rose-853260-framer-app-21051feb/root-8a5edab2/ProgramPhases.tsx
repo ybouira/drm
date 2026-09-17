@@ -1,4 +1,9 @@
+"use client";
+
 import { Fragment, type ReactNode } from "react";
+
+import type { Messages } from "@/i18n/messages";
+import { useI18n } from "@/i18n/provider";
 
 import {
   PhaseFourIcon,
@@ -11,10 +16,9 @@ import {
 type PhaseText = {
   numeral: string;
   numeralPosition: string;
-  title: string;
   titlePosition: string;
-  body: ReactNode | null;
   bodyPosition: string | null;
+  variant: "gutter" | "plain" | "strong";
 };
 
 type Phase = {
@@ -27,13 +31,28 @@ type Phase = {
 /**
  * Node and text positions are measured from the live desktop stage.
  *
- * DELIBERATE DEVIATION: the live site's desktop stage shows no text at all for
- * phase 01 and no body for phase 04 — that copy only exists in the section it
- * swaps in below 1440px. Showing it at desktop too was an explicit request, so
- * the 01 block and the 04 body below carry the verbatim copy from that
- * responsive section, placed in the stage's empty top-left and lower-right.
- * Everything else here is as measured.
+ * Phase copy is the desktop wording at every breakpoint. Phase 01 uses the
+ * same numeral/title/body tops as phase 03 so the two numbers sit on one
+ * line. The 01 body wraps around the connector via shape-outside — it does
+ * not cover the stroke.
  */
+function PhaseOneCurveGutter() {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none float-right h-[125px] w-[174px]"
+      style={{
+        // 174px gutter on the right of the 300px body (stage x 126–300).
+        // Top is a sliver so early lines stay wide; lower vertices follow
+        // the connector ~16px left of the centreline. The extra 10px at
+        // the bottom stops a line from escaping under the float.
+        shapeOutside:
+          "polygon(166px 0px, 174px 0px, 174px 125px, 0px 125px, 15px 102px, 54px 77px, 98px 63px, 145px 48px)",
+      }}
+    />
+  );
+}
+
 const PHASES: readonly Phase[] = [
   {
     id: "01",
@@ -41,17 +60,10 @@ const PHASES: readonly Phase[] = [
     nodePosition: "left-[0px] top-[332px]",
     text: {
       numeral: "01",
-      numeralPosition: "left-[0px] top-[0px]",
-      title: "Founder Exploration",
-      titlePosition: "left-[0px] top-[83px]",
-      body: (
-        <>
-          You enter the program and start working on your idea. Monthly
-          workshops, envisioning sessions, and biweekly check-ins keep you moving
-          towards the proof table.
-        </>
-      ),
-      bodyPosition: "left-[0px] top-[117px] w-[240px]",
+      numeralPosition: "left-[0px] top-[20px]",
+      titlePosition: "left-[0px] top-[103px]",
+      bodyPosition: "left-[0px] top-[137px] w-[300px]",
+      variant: "gutter",
     },
   },
   {
@@ -61,16 +73,9 @@ const PHASES: readonly Phase[] = [
     text: {
       numeral: "02",
       numeralPosition: "left-[259px] top-[278px]",
-      title: "Build Weekend",
       titlePosition: "left-[259px] top-[351px]",
-      body: (
-        <>
-          Selected founders join an intensive in-person experience at Drommer HQ
-          in Chiasso to challenge the idea, build the first venture proposal and
-          compete in a final pitch competition.
-        </>
-      ),
       bodyPosition: "left-[259px] top-[385px] w-[339px]",
+      variant: "plain",
     },
   },
   {
@@ -80,17 +85,9 @@ const PHASES: readonly Phase[] = [
     text: {
       numeral: "03",
       numeralPosition: "left-[481px] top-[20px]",
-      title: "10 Weeks to Revenue",
       titlePosition: "left-[481px] top-[103px]",
-      body: (
-        <>
-          The strongest founders earn a place into a{" "}
-          <strong className="font-bold">free 10-week journey</strong> focused on
-          validation, offer design, pricing, customer acquisition and first
-          revenue.
-        </>
-      ),
       bodyPosition: "left-[481px] top-[137px] w-[320px]",
+      variant: "strong",
     },
   },
   {
@@ -100,55 +97,33 @@ const PHASES: readonly Phase[] = [
     text: {
       numeral: "04",
       numeralPosition: "left-[959px] top-[253px]",
-      title: "Venture Building",
       titlePosition: "left-[959px] top-[326px]",
-      body: (
-        <>
-          When Drommer and you agree the opportunity is worth pursuing, Phase 2
-          begins. You build the startup with us. Operational support, legal,
-          accounting, fundraising, all in.
-        </>
-      ),
       bodyPosition: "left-[959px] top-[360px] w-[274px]",
+      variant: "plain",
     },
   },
 ];
 
 type ResponsivePhase = {
   numeral: string;
-  title: string;
-  body: string;
   icon: ReactNode;
 };
 
-/**
- * The sub-1440px section the live site swaps in ("How the Founder Program
- * actually works"). Copy is verbatim from the site's compiled component source;
- * unlike the desktop stage, all four phases are named and described here.
- */
 const RESPONSIVE_PHASES: readonly ResponsivePhase[] = [
   {
     numeral: "01",
-    title: "Founder Exploration",
-    body: "You enter the program and start working on your idea. Monthly workshops, envisioning sessions, and biweekly check-ins keep you moving towards the proof table.",
     icon: <PhaseOneIcon width={23} height={33} />,
   },
   {
     numeral: "02",
-    title: "Proof Table",
-    body: "Every month, you present your progress in front of the Drommer team and external network. You get challenged, supported, and directed. This is where weak ideas get stronger and real founders emerge.",
     icon: <PhaseTwoIcon width={30} height={30} />,
   },
   {
     numeral: "03",
-    title: "Analysis Phase",
-    body: "If you made worthwhile progress and passed the proof table we start going deeper and we start working together. We investigate the market, map assumptions, and gather real validation signals. The goal: move from intuition to evidence.",
     icon: <PhaseThreeIcon width={32} height={33} />,
   },
   {
     numeral: "04",
-    title: "Venture Building",
-    body: "When Drommer and you agree the opportunity is worth pursuing, Phase 2 begins. You build the startup with us. Operational support, legal, accounting, fundraising, all in.",
     icon: <PhaseFourIcon width={25} height={26} />,
   },
 ];
@@ -159,6 +134,19 @@ const NUMERAL_CLASS =
 const TITLE_CLASS = "text-[20px] font-bold leading-[24px] text-[#0d0d0f]";
 
 const BODY_CLASS = "text-[16px] font-normal leading-[19.2px] text-[#767676]";
+
+type PhaseCopy = Messages["phases"]["items"][number];
+
+function PhaseCopyBody({ copy }: { copy: PhaseCopy }) {
+  if ("body" in copy) return copy.body;
+  return (
+    <>
+      {copy.bodyBefore}{" "}
+      <strong className="font-bold">{copy.bodyStrong}</strong>{" "}
+      {copy.bodyAfter}
+    </>
+  );
+}
 
 function PhaseNode({ children }: { children: ReactNode }) {
   return (
@@ -171,6 +159,8 @@ function PhaseNode({ children }: { children: ReactNode }) {
 }
 
 export function ProgramPhases() {
+  const { t } = useI18n();
+
   return (
     <section
       id="program-phases"
@@ -179,23 +169,14 @@ export function ProgramPhases() {
       <div className="flex w-full max-w-[1440px] flex-col items-center justify-center gap-[15px] px-6 min-[1440px]:px-0">
         <div className="flex flex-col items-center justify-center gap-[10px]">
           <p className="text-[12px] font-bold leading-[14.4px] tracking-[2.4px] text-[#7138f2]">
-            PROGRAM PHASES
+            {t.phases.eyebrow}
           </p>
-          {/* The sub-1440px section carries a different headline on the live
-              site: "How the Founder Program actually works". */}
           <p className="text-center text-[40px] font-bold leading-[48px] text-[#0d0d0f]">
-            <span className="min-[1440px]:hidden">
-              How the Founder Program actually works
-            </span>
-            <span className="hidden min-[1440px]:inline">
-              How the Founder Program works
-            </span>
+            {t.phases.title}
           </p>
         </div>
         <p className="w-full text-center text-[18px] font-normal leading-[21.6px] text-[#505050]">
-          <strong className="font-bold">
-            Four steps to turn a real problem into an AI-native service business.
-          </strong>
+          <strong className="font-bold">{t.phases.subtitle}</strong>
         </p>
       </div>
 
@@ -219,8 +200,10 @@ export function ProgramPhases() {
               </div>
             ))}
 
-            {PHASES.map((phase) =>
-              phase.text ? (
+            {PHASES.map((phase, index) => {
+              const copy = t.phases.items[index];
+              if (!phase.text || !copy) return null;
+              return (
                 <Fragment key={phase.id}>
                   <p
                     className={`absolute ${phase.text.numeralPosition} ${NUMERAL_CLASS}`}
@@ -230,38 +213,45 @@ export function ProgramPhases() {
                   <p
                     className={`absolute ${phase.text.titlePosition} ${TITLE_CLASS}`}
                   >
-                    {phase.text.title}
+                    {copy.title}
                   </p>
-                  {phase.text.body && phase.text.bodyPosition ? (
+                  {phase.text.bodyPosition ? (
                     <p
                       className={`absolute ${phase.text.bodyPosition} ${BODY_CLASS}`}
                     >
-                      {phase.text.body}
+                      {phase.text.variant === "gutter" ? (
+                        <PhaseOneCurveGutter />
+                      ) : null}
+                      <PhaseCopyBody copy={copy} />
                     </p>
                   ) : null}
                 </Fragment>
-              ) : null,
-            )}
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Below 1440px the live site does not shrink the stage — it swaps in a
-          different section titled "How the Founder Program actually works",
-          with all four phases named and written out. Framer renders it
-          conditionally, so it is absent from the desktop DOM entirely. */}
+      {/* Below 1440px the stage is stacked, but the copy stays the desktop
+          version so every breakpoint matches. */}
       <div className="flex w-full max-w-[1440px] flex-col items-start gap-[40px] px-6 min-[1440px]:hidden">
-        {RESPONSIVE_PHASES.map((phase) => (
+        {RESPONSIVE_PHASES.map((phase, index) => {
+          const copy = t.phases.items[index];
+          if (!copy) return null;
+          return (
           <div
             key={phase.numeral}
             className="flex w-full flex-col items-start gap-[15px]"
           >
             <PhaseNode>{phase.icon}</PhaseNode>
             <p className={NUMERAL_CLASS}>{phase.numeral}</p>
-            <p className={TITLE_CLASS}>{phase.title}</p>
-            <p className={`max-w-[520px] ${BODY_CLASS}`}>{phase.body}</p>
+            <p className={TITLE_CLASS}>{copy.title}</p>
+            <p className={`max-w-[520px] ${BODY_CLASS}`}>
+              <PhaseCopyBody copy={copy} />
+            </p>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

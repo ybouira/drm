@@ -1,6 +1,12 @@
+"use client";
+
 import Image from "next/image";
 
+import { useI18n } from "@/i18n/provider";
+
 export function VentureBuilderStudio() {
+  const { t } = useI18n();
+
   return (
     <section
       id="for-companies"
@@ -10,23 +16,18 @@ export function VentureBuilderStudio() {
         <div className="flex w-full flex-col gap-[40px] min-[810px]:flex-1 min-[810px]:gap-[60px]">
           <div className="flex flex-col gap-[20px]">
             <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-white">
-              VENTURE BUILDER STUDIO
+              {t.studio.eyebrow}
             </p>
             <p className="text-[32px] leading-[38.4px] font-bold text-white min-[810px]:text-[40px] min-[810px]:leading-[48px]">
-              Not just a founder program.
+              {t.studio.titleLine1}
               <br />
-              We build companies too.
+              {t.studio.titleLine2}
             </p>
             <p className="text-[18px] leading-[21.6px] font-normal text-white min-[1440px]:w-[670px]">
-              Beyond the Founder Program, Drommer works with startups and
-              companies that need an operational partner to launch a new
-              initiative. We don&apos;t advise. We build, with a dedicated team,
-              in weekly execution cycles, from first test to first sale.
+              {t.studio.p1}
             </p>
             <p className="text-[18px] leading-[21.6px] font-normal text-white min-[1440px]:w-[670px]">
-              If you have an initiative that needs to move fast and you
-              don&apos;t want to build an internal team from scratch, this is
-              how we work together.
+              {t.studio.p2}
             </p>
           </div>
 
@@ -36,7 +37,7 @@ export function VentureBuilderStudio() {
             rel="noopener noreferrer"
             className="inline-flex h-[34px] w-fit items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
           >
-            Start building with us →
+            {t.studio.cta}
           </a>
         </div>
 

@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+
+import { useI18n } from "@/i18n/provider";
 
 const ASSET_BASE =
   "/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/images";
@@ -93,15 +97,17 @@ function LogoGroup({ ariaHidden }: { ariaHidden: boolean }) {
 }
 
 export function BuiltWith() {
+  const { t } = useI18n();
+
   return (
     <section className="flex w-full flex-col items-start justify-center gap-[30px] p-0">
       <div className="flex w-full flex-col items-center justify-center gap-[40px] bg-white px-[20px] py-[60px] min-[810px]:px-0">
         <div className="flex flex-col items-center justify-center gap-[10px]">
           <p className="text-[12px] font-bold leading-[14.4px] tracking-[2.4px] text-[#7138f2]">
-            BUILT WITH DROMMER
+            {t.builtWith.eyebrow}
           </p>
           <p className="text-center text-[40px] font-bold leading-[48px] text-[#0d0d0f]">
-            Projects we&apos;ve been part of
+            {t.builtWith.title}
           </p>
         </div>
 
