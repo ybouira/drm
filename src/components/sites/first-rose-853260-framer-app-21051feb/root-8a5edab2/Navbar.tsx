@@ -83,7 +83,11 @@ export function Navbar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 z-[2] w-full">
+    <div
+      /* Page content all sits at z-[1]; the bar needs headroom above anything
+         that builds its own layered stack, so it is not left at z-[2]. */
+      className="fixed top-0 left-0 z-50 w-full"
+    >
       <nav
         className={`relative flex flex-col items-center justify-center gap-0 bg-black/45 px-[20px] py-[12px] backdrop-blur-[8px] transition-[max-height] duration-300 ease-out min-[1000px]:h-[58px] min-[1000px]:max-h-none min-[1000px]:flex-row min-[1000px]:gap-[20px] min-[1000px]:overflow-hidden min-[1000px]:px-[40px] min-[1440px]:px-[100px] ${
           open

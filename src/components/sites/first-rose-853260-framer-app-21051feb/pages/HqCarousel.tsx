@@ -171,7 +171,10 @@ export function HqCarousel() {
 
   return (
     <div
-      className="flex h-full w-full cursor-grab touch-pan-y select-none items-center justify-center active:cursor-grabbing"
+      /* `isolate` keeps the tiles' 0-100 zIndex range inside its own stacking
+         context. Without it those values compete at the root and paint over
+         the fixed navbar, which sits far below 100. */
+      className="isolate flex h-full w-full cursor-grab touch-pan-y select-none items-center justify-center active:cursor-grabbing"
       onMouseDown={(e) => startDrag(e.clientX)}
       onMouseMove={(e) => moveDrag(e.clientX)}
       onMouseUp={endDrag}
