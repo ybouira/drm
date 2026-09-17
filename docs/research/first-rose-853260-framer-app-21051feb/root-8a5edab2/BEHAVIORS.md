@@ -407,3 +407,15 @@ that asymmetry is correct, not a missing asset.
 pills are `78 x 20`; with a stale `drommer-lang=it` cookie the translated labels give
 `71 / 85 / 85 / 85`. Force `drommer-lang=en` before comparing pill geometry against the live
 site, or the difference reads as a styling defect.
+
+**Gutter trap — do not apply the page gutter twice.** Every `<section>` on About Us already
+carries `px-5 / min-[810px]:px-10 / min-[1440px]:px-[100px]`. `RAIL` originally repeated the
+same classes, so the content box came out at **1240** instead of 1440. In the founders row
+that turned the live `space-between` spacing of **80px** into 12px — the cards read as almost
+touching. `RAIL` is now `mx-auto w-full max-w-[1440px]` with no padding, matching the fix
+already made on `CaseStudyPage`. Widening the rail changed no section heights (the document
+stays at 4811), because the other sections' content is `max-w-[720px]` and centred.
+
+The row itself must be a **flex row with `justify-content: space-between`** at 1440, not a
+grid — four 300px cards in a 1440 box then give exactly 80px between them. Verified against
+the live page, whose row reports `w1440 / flex / space-between` with four 300x450 cards.

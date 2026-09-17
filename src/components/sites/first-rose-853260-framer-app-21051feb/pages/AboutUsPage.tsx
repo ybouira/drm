@@ -62,8 +62,12 @@ const EXPERIENCE_RIGHT = [
   { src: `${SHARED}/SGuFxtmWFRwjWEZszLuJxB0Rk.webp`, className: "right-[63px] top-[256px]", float: "drommer-float-1000" },
 ] as const;
 
-const RAIL =
-  "mx-auto w-full max-w-[1440px] px-5 min-[810px]:px-10 min-[1440px]:px-[100px]";
+/**
+ * Every <section> on this page already carries the page gutter, so the rail
+ * must not add it a second time — doing so squeezed the 1440 content box to
+ * 1240 and pulled the founder cards 68px closer together than the original.
+ */
+const RAIL = "mx-auto w-full max-w-[1440px]";
 
 const DARK_LABEL =
   "text-[12px] font-bold leading-[14.4px] tracking-[2.4px] text-white";
@@ -218,7 +222,9 @@ export function AboutUsPage() {
                 {t.about.foundersBody}
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-2 min-[810px]:grid-cols-2 min-[1440px]:grid-cols-4">
+            {/* At 1440 the live row is a flex row with space-between: four
+                300px cards in a 1440 box give exactly 80px between them. */}
+            <div className="grid grid-cols-1 gap-5 min-[810px]:grid-cols-2 min-[1440px]:flex min-[1440px]:flex-row min-[1440px]:items-start min-[1440px]:justify-between min-[1440px]:gap-0">
               {FOUNDERS.map((founder) => (
                 <a
                   key={founder.name}
