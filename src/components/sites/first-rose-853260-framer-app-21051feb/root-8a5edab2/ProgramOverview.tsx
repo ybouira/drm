@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { useI18n } from "@/i18n/provider";
 
 import { ListCheckIcon, WhatYouGetIcon, WhoItsForIcon } from "../shared/icons";
@@ -112,12 +110,14 @@ export function ProgramOverview() {
         </article>
       </div>
 
-      <Link
-        href="/founder-challenge"
+      <a
+        href="https://drommer-founder-program.lovable.app"
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-flex items-center justify-center gap-[15px] rounded-[5px] bg-[#7138f2] px-[20px] py-[10px] text-[14px] font-semibold leading-[14px] text-white hover:bg-[#4418AB] transition-colors duration-200 ease-out"
       >
         {t.overview.exploreChallenge}
-      </Link>
+      </a>
     </section>
   );
 }
