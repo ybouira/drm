@@ -127,9 +127,13 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
 
         <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] bg-white pb-10">
           <div
-            className={`${RAIL} flex flex-col gap-10 min-[810px]:flex-row min-[810px]:items-center min-[810px]:gap-[100px]`}
+            /* The live row (.framer-wxkdai) is flex-row only at 1440; both
+               narrower blocks set flex-direction: column, with gap 56 at tablet
+               and 36 on mobile. Pairing two 563px shrink-0 columns at 810 put
+               1226px of content in 731px of space. */
+            className={`${RAIL} flex flex-col gap-[36px] min-[810px]:gap-[56px] min-[1440px]:flex-row min-[1440px]:items-center min-[1440px]:gap-[100px]`}
           >
-            <div className="flex w-full flex-col gap-[26px] min-[810px]:w-[563px] min-[810px]:shrink-0">
+            <div className="flex w-full flex-col gap-[26px] min-[1440px]:w-[563px] min-[1440px]:shrink-0">
               <h2 className="text-[42px] font-bold leading-[46.2px] tracking-[-1.68px] text-[#0d0d0f]">
                 {t.caseStudyUi.businessModel}
               </h2>
@@ -143,13 +147,15 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
                 {copy.targetClients}
               </p>
             </div>
-            <div className="relative h-[380px] w-full overflow-hidden rounded-[12px] min-[810px]:h-[580px] min-[810px]:w-[563px] min-[810px]:shrink-0">
+            {/* Live heights for this image: 580 at desktop, 520 at tablet,
+                360 on mobile (.framer-tjca4e). */}
+            <div className="relative h-[360px] w-full overflow-hidden rounded-[12px] min-[810px]:h-[520px] min-[1440px]:h-[580px] min-[1440px]:w-[563px] min-[1440px]:shrink-0">
               <Image
                 src={study.narrativeImage}
                 alt=""
                 fill
                 className="rounded-[12px] object-contain"
-                sizes="(min-width: 810px) 563px, 100vw"
+                sizes="(min-width: 1440px) 563px, 100vw"
               />
             </div>
           </div>

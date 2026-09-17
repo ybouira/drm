@@ -518,3 +518,70 @@ The clone had `min-[810px]:flex-row` with a hard-coded `w-[650px]` text column b
 
 The vision section's *vertical* padding also only reaches 100px at 1440; below that it is 60.
 The origin section is 60px vertically at every width.
+
+## Responsive — the site's real breakpoint rule
+
+The three Framer breakpoints are `>= 1440`, `810 - 1439.98` and `<= 809.98`. The single most
+important thing about this site:
+
+> **Two-column content rows stack at 1440, not at 810.**
+
+Confirmed on ORIGIN, VISION, FAQ and the case-study narrative row — each one is `flex-row` only
+in the base block, with `flex-direction: column` in *both* narrower media blocks. Building them
+as `min-[810px]:flex-row` with fixed `shrink-0` columns put more content in the row than the
+viewport had, and the page scrolled sideways between roughly 810 and 1200.
+
+Card rows are the exception and stay horizontal at tablet, changing only gap and padding.
+
+### How to read the spec off the live site
+
+`resize_window` is a no-op here, so the per-breakpoint values come from the stylesheet. Framer
+inlines its CSS in `<style>` blocks; walk them tracking brace depth so `@media` context is
+accurate (matching the nearest *preceding* `@media` is wrong — blocks close). Group by media
+condition and keep only layout declarations, and the whole responsive spec for a page falls out:
+the homepage has 22 tablet rules and 37 mobile rules.
+
+Verify by loading the clone in a **same-origin iframe** at the target width. Subtract the
+scrollbar: `width=826` gives a 811 viewport, `width=390` gives 375.
+
+### Navbar
+
+A Framer variant component, `.framer-Pc1Oz`, with four states rather than media queries:
+
+| Variant | State | Rules |
+| ------- | ----- | ----- |
+| base | desktop | `flex-row; gap 20; padding 12px 100px`, height 58 |
+| `v-1qcxscs` | tablet | as desktop, `padding: 12px 40px` |
+| `v-3bf09r` | mobile closed | `flex-direction: column; gap 0; height 64; padding 12px 20px` |
+| `v-gc4hkt` | mobile open | `max-height: 100vh; overflow: auto; overscroll-behavior: contain` |
+
+Links stay in a row down to 810. When open: links column `gap 10, padding 40 0 0`; right group
+column `width 100%, padding 40 0 20`; CTA `width 100%`. The toggle is 40x40 at base, 44x44 in
+both mobile variants, holding three 20x2 bars at `left: calc(50% - 10px)` and
+`top: 37.5% / 50% / 62.5% - 1px`. Framer animates the open rotation through a motion value, so
+the X is not in the CSS — reproduce it with a transform.
+
+The live nav has no language toggle; that is this clone's own i18n addition.
+
+### Per-component values worth keeping
+
+| Component | `>= 1440` | `810-1439` | `<= 809` |
+| --------- | --------- | ---------- | -------- |
+| Venture studio section | `padding 60px 100px` | `60px 20px` | `60px 20px` |
+| Venture studio card | `flex-row; gap 60; padding 40` | `padding 20` | `column; gap 40; padding 20` |
+| — text column | `width 798; flex none` | `flex 1 0 0; width 1px` | `width 100%; gap 40` |
+| — image column | `flex 1 0 0; align-self stretch` | `flex none; width 36%` | `width 100%; height 296` |
+| FAQ row | `flex-row; gap 60` | `column` | `column` |
+| FAQ heading column | `position sticky; top 80px` | `position relative` | `relative; width 100%` |
+| Case study narrative row | `flex-row; gap 100` | `column; gap 56` | `column; gap 36` |
+| — image | `563 wide` | `width 100%; height 520` | `width 100%; height 360` |
+
+The venture studio image is `flex: 1`, not a fixed 502 — 502 is simply what the remainder comes
+to at 1440 (1440 - 80 padding - 798 text - 60 gap).
+
+### Overflow is clipped, not avoided
+
+Framer sections carry `overflow: var(--overflow-clip-fallback, clip)`. Several elements are
+*meant* to exceed the viewport — the EXPERIENCE photos sit at negative offsets, and the DROMMER
+HQ ring is wider than a phone screen — and the section clip is what stops them pushing the page
+sideways. Any section holding deliberately-overhanging children needs `overflow-clip`.

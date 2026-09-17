@@ -209,7 +209,10 @@ export function AboutUsPage() {
           </div>
         </section>
 
-        <section className="bg-[#f8f8f8] px-5 py-[100px] min-[810px]:px-10 min-[1440px]:px-[100px]">
+        {/* The ring is deliberately wider than the viewport on small screens —
+            every live Framer section carries overflow: clip, which is what keeps
+            it from pushing the page sideways. */}
+        <section className="overflow-clip bg-[#f8f8f8] px-5 py-[100px] min-[810px]:px-10 min-[1440px]:px-[100px]">
           <div className={`${RAIL}`}>
             <div className="relative mx-auto h-[767px] w-full max-w-[1225px]">
               <div className="flex flex-col items-center gap-[10px] text-center">

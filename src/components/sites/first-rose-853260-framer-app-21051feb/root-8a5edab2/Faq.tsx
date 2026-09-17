@@ -28,8 +28,11 @@ export function Faq() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-[60px] bg-[#f8f8f8] px-[24px] py-[60px] min-[810px]:px-[60px] min-[1440px]:px-[100px]">
-      <div className="flex w-full max-w-[1440px] flex-col gap-[40px] min-[810px]:flex-row min-[810px]:gap-[60px]">
-        <div className="flex flex-col gap-[30px] min-[810px]:w-[560px] min-[810px]:shrink-0">
+      {/* The live row (.framer-n160eb) is flex-row only at 1440; both narrower
+          blocks set flex-direction: column. The heading column is sticky at
+          top: 80px there, and static below (.framer-19zio2m). */}
+      <div className="flex w-full max-w-[1440px] flex-col gap-[40px] min-[1440px]:flex-row min-[1440px]:items-start min-[1440px]:gap-[60px]">
+        <div className="flex w-full flex-col gap-[30px] min-[1440px]:sticky min-[1440px]:top-[80px] min-[1440px]:w-[560px] min-[1440px]:shrink-0">
           <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-[#7138f2]">
             {t.faq.eyebrow}
           </p>
@@ -38,7 +41,7 @@ export function Faq() {
           </p>
         </div>
 
-        <div className="flex flex-1 flex-col gap-[5px] min-[810px]:max-w-[820px]">
+        <div className="flex w-full flex-1 flex-col gap-[5px] min-[1440px]:max-w-[820px]">
           {t.faq.entries.map((entry, index) => {
             const open = openRows.includes(index);
 

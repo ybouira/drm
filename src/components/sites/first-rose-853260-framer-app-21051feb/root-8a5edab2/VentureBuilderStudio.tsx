@@ -10,10 +10,13 @@ export function VentureBuilderStudio() {
   return (
     <section
       id="for-companies"
-      className="flex flex-col items-center justify-center gap-[60px] bg-white px-[20px] py-[60px] min-[810px]:px-[40px] min-[1440px]:px-[100px]"
+      className="flex flex-col items-center justify-center gap-[60px] overflow-clip bg-white px-[20px] py-[60px] min-[1440px]:px-[100px]"
     >
-      <div className="flex w-full max-w-[1440px] flex-col items-start justify-start gap-[40px] rounded-[10px] bg-[#161616] p-[24px] min-[810px]:flex-row min-[810px]:gap-[60px] min-[810px]:p-[40px] min-[1440px]:h-[474px]">
-        <div className="flex w-full flex-col gap-[40px] min-[810px]:flex-1 min-[810px]:gap-[60px]">
+      {/* Live card padding is 20 below 1440 and 40 at it; the row only becomes
+          a column on mobile, where the gap drops to 40. */}
+      <div className="flex w-full max-w-[1440px] flex-col items-start justify-start gap-[40px] rounded-[10px] bg-[#161616] p-[20px] min-[810px]:flex-row min-[810px]:gap-[60px] min-[1440px]:h-[474px] min-[1440px]:p-[40px]">
+        {/* 798px fixed at desktop, then flex:1 at tablet so the pair fits. */}
+        <div className="flex w-full flex-col gap-[40px] min-[810px]:w-px min-[810px]:flex-1 min-[810px]:gap-[60px] min-[1440px]:w-[798px] min-[1440px]:flex-none">
           <div className="flex flex-col gap-[20px]">
             <p className="text-[12px] leading-[14.4px] font-bold tracking-[2.4px] text-white">
               {t.studio.eyebrow}
@@ -41,13 +44,15 @@ export function VentureBuilderStudio() {
           </a>
         </div>
 
-        <div className="w-full min-[810px]:w-[502px] min-[810px]:shrink-0">
+        {/* The image column is 36% at tablet and flex:1 at desktop — the 502px
+            it measures at 1440 is the remainder, not a fixed width. */}
+        <div className="w-full min-[810px]:w-[36%] min-[810px]:shrink-0 min-[810px]:self-stretch min-[1440px]:w-px min-[1440px]:flex-1">
           <Image
             src="/sites/first-rose-853260-framer-app-21051feb/root-8a5edab2/images/vjgh5nFn3fu3gvShiInOR0ILTs.png"
             alt=""
             width={502}
             height={394}
-            className="h-[240px] w-full rounded-[10px] object-cover min-[810px]:h-[394px] min-[810px]:w-[502px]"
+            className="h-[296px] w-full rounded-[10px] object-cover min-[810px]:h-full min-[1440px]:h-[394px]"
           />
         </div>
       </div>
