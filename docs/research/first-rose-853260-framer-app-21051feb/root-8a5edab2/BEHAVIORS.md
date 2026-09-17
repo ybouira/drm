@@ -353,3 +353,57 @@ Both were missing from the clone's assets and are now downloaded under
 
 **Clone implementation:** `pages/HqCarousel.tsx`, a direct port. Rotation is mirrored into
 React state so render never reads a ref. Honours `prefers-reduced-motion`.
+
+### Hydration trap — round inline transforms
+
+Chrome normalises inline `transform` values to **three decimals** when it parses them, so
+`translateX(-264.6378698024601px)` is stored in the DOM as `translateX(-264.638px)`. React's
+dev hydration check compares its freshly computed full-precision string against what the DOM
+actually holds and reports a mismatch on every load. `HqCarousel` therefore rounds `x`, `y`
+and `scale` through `round3()` before building the transform string. Any future component
+that writes computed transforms inline needs the same treatment.
+
+## About Us — THE FOUNDERS
+
+Measured on the live page at 1905px wide.
+
+| Box | Size / style |
+| --- | --- |
+| Section | 1905 x 857, `padding: 100px`, `gap: 60px` |
+| Rail | 1440 x 657 |
+| Card row | 1440 x 450, `flex-direction: row`, `justify-content: space-between`, `align-items: flex-start` |
+| Card | 300 x 450, `border-radius: 10px`, `padding: 20px`, `flex-column`, `align-items: flex-end`, `justify-content: flex-end`, `gap: 10px` |
+
+Each card is an `<a>` to the founder's LinkedIn (`target="_blank"`), with the portrait as a
+`fill` image behind a four-stop scrim:
+
+```
+linear-gradient(rgba(255,255,255,0) 0%, rgba(0,0,0,0.2) 78.3506%,
+                rgba(0,0,0,0.3) 89.0221%, rgba(0,0,0,0.6) 100%)
+```
+
+Above the name sits the founder's **startup logo** at `82 x 28`, `object-fit: contain` — this
+is the detail the first pass missed. The bottom row is `width: 100%`, `flex-row`,
+`align-items: flex-start`, `justify-content: space-between`:
+
+- left — name at `16px / 19.2px`, `font-weight: bold`, followed by a **small** LinkedIn mark
+  (`viewBox="0 0 11 10"`, `fill="white"`). This is a *different* glyph from the footer's;
+  it is exported separately as `LinkedInSmallIcon`.
+- right — status pill, `border-radius: 100px`, `padding: 5px 10px`,
+  `background: rgba(121,121,121,0.15)`, `box-shadow: 0 0 2px 0 rgba(0,0,0,0.5)`, label at
+  `10px / 10px`, preceded by a 1-colour dot.
+
+| Founder | Startup logo | Status | Dot |
+| ------- | ------------ | ------ | --- |
+| Gianmarco | `aWxOXQ9PiPsYwsifpLTqpAEhRAE.webp` (Prisma Group) | Launched | `#00FF4C` |
+| Aicha | `kT8huskO1CGbgEipNqxue4wdQ.png` (Kaleba) | Validation | `#F28838` |
+| Pietro | `dRFWThY0BX0AqgVC4AO5yvkTNxQ.webp` (OKRogito) | Validation | `#F28838` |
+| Youssef | *(none)* | Validation | `#F28838` |
+
+Youssef genuinely has no logo, so his card renders one image where the others render two —
+that asymmetry is correct, not a missing asset.
+
+**Measuring trap:** the pill's width depends on the locale. Under the default `en` all four
+pills are `78 x 20`; with a stale `drommer-lang=it` cookie the translated labels give
+`71 / 85 / 85 / 85`. Force `drommer-lang=en` before comparing pill geometry against the live
+site, or the difference reads as a styling defect.

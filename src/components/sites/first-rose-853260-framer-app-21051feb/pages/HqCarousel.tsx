@@ -59,6 +59,14 @@ const RADIUS = 10;
 const DRAG_DEGREES_PER_PX = 0.3;
 const MOMENTUM_DECAY = 0.92;
 
+/**
+ * Chrome normalises inline transform values to three decimals when it parses
+ * them, so full-precision output makes React's hydration check compare
+ * "-264.6378698024601px" against the "-264.638px" the DOM actually holds.
+ * Rounding here makes both sides agree.
+ */
+const round3 = (value: number) => Math.round(value * 1000) / 1000;
+
 export function HqCarousel() {
   const [viewport, setViewport] = useState(1200);
   // Rotation is mirrored into state so render never reads a ref; the ref is what
@@ -153,10 +161,10 @@ export function HqCarousel() {
     return {
       media,
       index,
-      x: Math.sin(angle) * horizontalRadius,
-      y: -Math.cos(angle) * bob,
+      x: round3(Math.sin(angle) * horizontalRadius),
+      y: round3(-Math.cos(angle) * bob),
       z,
-      scale: 0.35 + depthNorm * 0.65,
+      scale: round3(0.35 + depthNorm * 0.65),
       depthNorm,
     };
   }).sort((a, b) => a.z - b.z);

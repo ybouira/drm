@@ -8,34 +8,44 @@ import { Footer } from "../root-8a5edab2/Footer";
 import { FinalCta } from "../root-8a5edab2/FinalCta";
 import { MarqueeStrip } from "../root-8a5edab2/MarqueeStrip";
 import { Navbar } from "../root-8a5edab2/Navbar";
+import { LinkedInSmallIcon } from "../shared/icons";
 import { HqCarousel } from "./HqCarousel";
 
 const SHARED = "/sites/first-rose-853260-framer-app-21051feb/shared/images";
 
+/**
+ * Each founder card carries the startup they are building, as an 82x28 logo
+ * above the name row. Youssef has no logo on the live site.
+ * Dot colours: Launched #00FF4C, Validation #F28838.
+ */
 const FOUNDERS = [
   {
     name: "Gianmarco",
     status: "Launched",
     href: "https://www.linkedin.com/in/gianmarco-pompizii-63674b235/",
     photo: `${SHARED}/TVm5TqB8ZfUrryQF17eYym9PdI.webp`,
+    logo: `${SHARED}/aWxOXQ9PiPsYwsifpLTqpAEhRAE.webp`,
   },
   {
     name: "Aicha",
     status: "Validation",
     href: "http://linkedin.com/in/aicha-bouira/",
     photo: `${SHARED}/aAaO0SNHI6KFbq4woACofUpScI.webp`,
+    logo: `${SHARED}/kT8huskO1CGbgEipNqxue4wdQ.png`,
   },
   {
     name: "Pietro",
     status: "Validation",
     href: "https://www.linkedin.com/in/pietro-rebucci-a08b75227/",
     photo: `${SHARED}/KuK5S9ttna0kIbm6RE4jCuqMGRg.webp`,
+    logo: `${SHARED}/dRFWThY0BX0AqgVC4AO5yvkTNxQ.webp`,
   },
   {
     name: "Youssef",
     status: "Validation",
     href: "https://www.linkedin.com/in/bouira/",
     photo: `${SHARED}/kHw1yfkeQMvfZMIb05hMx22yMo.webp`,
+    logo: null,
   },
 ] as const;
 
@@ -215,25 +225,49 @@ export function AboutUsPage() {
                   href={founder.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex h-[450px] flex-col justify-end overflow-hidden rounded-[10px] p-5 min-[1440px]:w-[300px]"
+                  className="relative flex h-[450px] flex-col items-end justify-end gap-[10px] overflow-hidden rounded-[10px] p-[20px] min-[1440px]:w-[300px]"
                 >
                   <Image
                     src={founder.photo}
                     alt={founder.name}
                     fill
-                    className="object-cover"
+                    className="rounded-[10px] object-cover"
                     sizes="300px"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0)_40%,rgba(0,0,0,0.75)_100%)]" />
-                  <div className="relative z-[1] flex flex-col gap-1">
-                    <p className="text-[20px] font-bold leading-6 text-white">
-                      {founder.name}
-                    </p>
-                    <p className="text-[14px] font-normal leading-[16.8px] text-white/80">
-                      {founder.status === "Launched"
-                        ? t.common.launched
-                        : t.common.validation}
-                    </p>
+                  <div className="absolute inset-0 rounded-[10px] bg-[linear-gradient(rgba(255,255,255,0)_0%,rgba(0,0,0,0.2)_78.3506%,rgba(0,0,0,0.3)_89.0221%,rgba(0,0,0,0.6)_100%)]" />
+
+                  {founder.logo ? (
+                    <Image
+                      src={founder.logo}
+                      alt=""
+                      width={82}
+                      height={28}
+                      sizes="82px"
+                      className="relative z-[1] h-[28px] w-[82px] object-contain"
+                    />
+                  ) : null}
+
+                  <div className="relative z-[1] flex w-full flex-row items-start justify-between">
+                    <span className="flex flex-row items-center gap-[10px]">
+                      <span className="text-[16px] font-bold leading-[19.2px] text-white">
+                        {founder.name}
+                      </span>
+                      <LinkedInSmallIcon />
+                    </span>
+                    <span className="flex flex-row items-center justify-center gap-[5px] rounded-[100px] bg-[rgba(121,121,121,0.15)] px-[10px] py-[5px] shadow-[0_0_2px_0_rgba(0,0,0,0.5)]">
+                      <span
+                        className={`h-[6px] w-[6px] shrink-0 rounded-[100px] ${
+                          founder.status === "Launched"
+                            ? "bg-[#00FF4C]"
+                            : "bg-[#F28838]"
+                        }`}
+                      />
+                      <span className="whitespace-nowrap text-[10px] font-normal leading-[10px] text-white">
+                        {founder.status === "Launched"
+                          ? t.common.launched
+                          : t.common.validation}
+                      </span>
+                    </span>
                   </div>
                 </a>
               ))}
