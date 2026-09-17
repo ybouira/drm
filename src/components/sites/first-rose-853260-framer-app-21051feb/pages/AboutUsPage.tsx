@@ -111,7 +111,10 @@ export function AboutUsPage() {
                 alt=""
                 fill
                 className="object-cover"
-                sizes="525px"
+                /* 1812x954 (1.90:1) in a 525x347 box: covering 347px of height
+                   needs 347 * 1.90 = 660px of width. See the `sizes` trap note
+                   in BEHAVIORS.md. */
+                sizes="660px"
               />
             </div>
           </div>
@@ -127,7 +130,9 @@ export function AboutUsPage() {
                 alt=""
                 fill
                 className="object-cover"
-                sizes="525px"
+                /* 1388x926 (1.50:1) already matches the box aspect, but keep the
+                   same headroom as its twin above so the pair stays consistent. */
+                sizes="660px"
               />
             </div>
             <div className="flex w-full flex-col gap-[30px] min-[810px]:w-[650px] min-[810px]:shrink-0">
