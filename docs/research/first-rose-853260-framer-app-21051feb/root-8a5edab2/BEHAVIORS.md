@@ -419,3 +419,33 @@ stays at 4811), because the other sections' content is `max-w-[720px]` and centr
 The row itself must be a **flex row with `justify-content: space-between`** at 1440, not a
 grid — four 300px cards in a 1440 box then give exactly 80px between them. Verified against
 the live page, whose row reports `w1440 / flex / space-between` with four 300x450 cards.
+
+### `sizes` trap — object-cover needs enough width to cover the *height*
+
+Next's `sizes` describes the width of the layout box and assumes the image fills that box at
+its natural aspect. With `object-cover` in a box of a *different* aspect, the browser scales
+the decoded image up until it covers the longer axis, so `sizes` must be big enough for that,
+not for the box width.
+
+The founder cards are 300x450 (0.667:1). Aicha's photo is 2048x1150 (**1.78:1**), so at
+`sizes="300px"` Next served a 300px-wide variant that decodes to **300x168** — which the card
+then had to blow up **2.68x** to fill 450px of height. That, not the file format, was the
+pixelation. Covering 450px of height at 1.78:1 needs `450 * 1.78 = 800px` of intrinsic width,
+so the photo uses `sizes="800px"`.
+
+| Founder | Source | Aspect | cover scale @300px | @800px |
+| ------- | ------ | ------ | ------------------ | ------ |
+| Gianmarco | 1280x1706 | 0.75 | 1.13 | 0.42 |
+| Aicha | 2048x1150 | **1.78** | **2.68** | 1.00 |
+| Pietro | 887x1774 | 0.50 | 1.00 | 0.38 |
+| Youssef | 525x934 | 0.56 | 1.00 | 0.59 |
+
+Nothing is upscaled at `800px`, and because the source is untouched the crop still matches the
+live card exactly. Re-cropping the asset would also fix the sharpness, but it moves the
+framing away from the original — prefer fixing `sizes`.
+
+**How to measure it:** read `naturalWidth/naturalHeight` off the rendered `<img>` and compute
+`max(boxW / naturalW, boxH / naturalH)`. Anything above 1.0 is being upscaled. Note the
+founder images are lazy and this automation tab often reports `naturalWidth 0`; set
+`img.loading = "eager"` and reassign `img.src` to force the fetch before measuring, and never
+call `img.decode()` here — it never settles in a hidden tab and freezes the renderer.

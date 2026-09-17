@@ -238,7 +238,15 @@ export function AboutUsPage() {
                     alt={founder.name}
                     fill
                     className="rounded-[10px] object-cover"
-                    sizes="300px"
+                    /* Deliberately far wider than the 300px box. `sizes` assumes
+                       the image fills its box at its natural aspect, but
+                       `object-cover` in a 300x450 portrait card scales a
+                       landscape source up until it covers the *height*. Aicha's
+                       photo is 2048x1150 (1.78:1), so covering 450px of height
+                       needs 450 * 1.78 = 800px of intrinsic width. Asking for
+                       300px made Next serve her at 300x168, which the card then
+                       blew up 2.68x — that was the pixelation, not the asset. */
+                    sizes="800px"
                   />
                   <div className="absolute inset-0 rounded-[10px] bg-[linear-gradient(rgba(255,255,255,0)_0%,rgba(0,0,0,0.2)_78.3506%,rgba(0,0,0,0.3)_89.0221%,rgba(0,0,0,0.6)_100%)]" />
 
