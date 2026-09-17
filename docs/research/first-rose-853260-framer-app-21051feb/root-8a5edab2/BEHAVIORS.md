@@ -274,3 +274,82 @@ alone, each found only by reading the compiled component source:
 
 When asked whether something animates, grep the page's chunk for these before concluding
 it is static.
+
+
+## About Us — DROMMER HQ rotating media ring
+
+The DROMMER HQ section is a **custom Framer code component**, not a layout of positioned
+photos. It is a continuously rotating ring of six media tiles that can also be dragged.
+
+This is a fourth motion mechanism on the site, and the only one that is a bespoke
+component rather than a Framer built-in — so it carries none of the `__framer__*` effect
+props. It was found by grepping the page chunk for `speed`, which surfaced the component's
+own property descriptor: *"Rotation Speed — Time in seconds for one complete rotation"*.
+
+### Instance configuration
+
+| Prop | Value |
+| ---- | ----- |
+| `speed` | `30` (seconds per full rotation, so 12 deg/s) |
+| `imageWidth` | `300` |
+| `aspectRatio` | `1` |
+| `imageRadius` | `10` |
+
+### Geometry (verbatim from the component)
+
+```
+z    = innerWidth <= 480 ? 0.4 : innerWidth <= 768 ? 0.6 : 1
+tile = 300 * z
+H    = max(count * (tile + 20) / (2 * PI), 200 * z)     horizontal radius
+U    = H * 0.85                                          depth radius
+bob  = 40 * z
+pad  = innerWidth <= 768 ? 80 : 100
+stage = (H*2 + tile + pad) x (bob*2 + tile + pad)
+```
+
+Per tile at angle `n = rotation + 360/count * i`:
+
+```
+x         = sin(n) * H
+y         = -cos(n) * bob
+zDepth    = cos(n) * U
+depthNorm = (zDepth + U) / (2U)
+scale     = 0.35 + depthNorm * 0.65
+zIndex    = round(depthNorm * 100)
+transform = translate(-50%,-50%) translateX(x) translateY(y) scale(scale)
+```
+
+Tiles are sorted back-to-front by `zDepth` before painting.
+
+At 1920px this gives a **1011 x 480** stage and scales of
+**0.35 / 0.5125 / 0.8375 / 1.0** at 60-degree increments — both confirmed against the live
+DOM, and both reproduced exactly by the clone.
+
+### Drag
+
+`cursor: grab` / `grabbing`, `touch-action: pan-y`. Dragging rotates at **0.3 deg per
+pixel**; on release the momentum carries and decays by **0.92 per frame** until it falls
+below 0.1 deg and the idle spin resumes.
+
+### Media — six tiles, and a trap
+
+Slots 1 and 2 are **videos**; slots 3-6 are images. The component keeps `mediaType` and
+`video` arrays unfiltered while filtering the image array, so slots 1 and 2 still carry
+image sources that are never rendered (`KP8mHD1gUiZn6t7Lh3YJrVScHc.webp` and one other).
+Do not mistake those for visible assets.
+
+| Slot | Kind | File |
+| ---- | ---- | ---- |
+| 1 | video | `alSHItmqtSUkRprMTTpDWQY4utY.mp4` (2.1 MB) |
+| 2 | video | `qnqGys529ygGdzaSURPPRjKSvWQ.mp4` (14.1 MB) |
+| 3 | image | `EjURn1ncA5ogB6ogvh2kSzrfKM0.webp` |
+| 4 | image | `fUYvTkLXEB3POTIQF9rQ6ofIu2g.webp` |
+| 5 | image | `kzoqCssl66YuZIpzxEq3JrwGYec.webp` |
+| 6 | image | `kfJ3Afnbu7MDM23gfqTEdEXb4wE.webp` |
+
+Videos render as `<video autoplay loop muted playsinline>` with `pointer-events: none`.
+Both were missing from the clone's assets and are now downloaded under
+`public/sites/.../shared/videos/`.
+
+**Clone implementation:** `pages/HqCarousel.tsx`, a direct port. Rotation is mirrored into
+React state so render never reads a ref. Honours `prefers-reduced-motion`.

@@ -8,6 +8,7 @@ import { Footer } from "../root-8a5edab2/Footer";
 import { FinalCta } from "../root-8a5edab2/FinalCta";
 import { MarqueeStrip } from "../root-8a5edab2/MarqueeStrip";
 import { Navbar } from "../root-8a5edab2/Navbar";
+import { HqCarousel } from "./HqCarousel";
 
 const SHARED = "/sites/first-rose-853260-framer-app-21051feb/shared/images";
 
@@ -35,25 +36,6 @@ const FOUNDERS = [
     status: "Validation",
     href: "https://www.linkedin.com/in/bouira/",
     photo: `${SHARED}/kHw1yfkeQMvfZMIb05hMx22yMo.webp`,
-  },
-] as const;
-
-const HQ_PHOTOS = [
-  {
-    src: `${SHARED}/kfJ3Afnbu7MDM23gfqTEdEXb4wE.webp`,
-    className: "absolute left-[331px] top-[286px] h-[290px] w-[290px]",
-  },
-  {
-    src: `${SHARED}/kzoqCssl66YuZIpzxEq3JrwGYec.webp`,
-    className: "absolute left-[203px] top-[360px] h-[208px] w-[208px]",
-  },
-  {
-    src: `${SHARED}/fUYvTkLXEB3POTIQF9rQ6ofIu2g.webp`,
-    className: "absolute left-[384px] top-[440px] h-[121px] w-[121px]",
-  },
-  {
-    src: `${SHARED}/EjURn1ncA5ogB6ogvh2kSzrfKM0.webp`,
-    className: "absolute left-[692px] top-[445px] h-[115px] w-[115px]",
   },
 ] as const;
 
@@ -159,20 +141,10 @@ export function AboutUsPage() {
                   {t.about.hqBody}
                 </p>
               </div>
-              {HQ_PHOTOS.map((photo) => (
-                <div
-                  key={photo.src}
-                  className={`${photo.className} overflow-hidden rounded-[10px] max-[809px]:relative max-[809px]:left-auto max-[809px]:top-auto max-[809px]:mt-3 max-[809px]:h-[160px] max-[809px]:w-full`}
-                >
-                  <Image
-                    src={photo.src}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="290px"
-                  />
-                </div>
-              ))}
+              {/* The live section is a rotating media ring, not fixed photos. */}
+              <div className="absolute inset-x-0 bottom-0 top-[180px]">
+                <HqCarousel />
+              </div>
             </div>
           </div>
         </section>
