@@ -10,8 +10,9 @@ import { FinalCta } from "../root-8a5edab2/FinalCta";
 import { Navbar } from "../root-8a5edab2/Navbar";
 import type { CaseStudyContent } from "./caseStudy";
 
-const RAIL =
-  "mx-auto w-full max-w-[1440px] px-5 min-[810px]:px-10 min-[1440px]:px-[100px]";
+// The horizontal gutter belongs to the section, not the rail — on the live page
+// the 1440px rail carries full-width content (the dark cards are 1440 wide).
+const RAIL = "mx-auto w-full max-w-[1440px]";
 
 function studyCopy(t: Messages, slug: string) {
   if (slug === "okrogito") return t.studies.okrogito;
@@ -48,7 +49,7 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
     <>
       <Navbar />
       <main>
-        <section className="relative flex h-[720px] flex-col justify-end overflow-hidden bg-[#0d0d0f]">
+        <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] relative flex h-[748px] flex-col justify-end overflow-hidden bg-[#0d0d0f]">
           <Image
             src={study.heroBackground}
             alt=""
@@ -81,14 +82,14 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
           </div>
         </section>
 
-        <section className="bg-white py-[60px]">
+        <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] bg-white py-[60px]">
           <div className={`${RAIL} flex flex-col gap-[42px]`}>
             {copy.metrics.length > 0 ? (
               <div className="grid grid-cols-1 gap-[14px] min-[810px]:grid-cols-3">
                 {copy.metrics.map((metric) => (
                   <div
                     key={metric}
-                    className="flex min-h-[110px] items-center rounded-[12px] bg-[#f8f8f8] p-[22px]"
+                    className="flex min-h-[110px] items-center justify-center rounded-[12px] bg-[#f8f8f8] p-[22px] text-center"
                   >
                     <p className="text-[18px] font-medium leading-[21.6px] tracking-[-0.54px] text-[#2d2d2d]">
                       {metric}
@@ -124,7 +125,7 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
           </div>
         </section>
 
-        <section className="bg-white pb-10">
+        <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] bg-white pb-10">
           <div
             className={`${RAIL} flex flex-col gap-10 min-[810px]:flex-row min-[810px]:items-center min-[810px]:gap-[100px]`}
           >
@@ -154,7 +155,7 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
           </div>
         </section>
 
-        <section className="bg-white py-[72px]">
+        <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] bg-white py-[72px]">
           <div className={`${RAIL} flex flex-col gap-10`}>
             <h2 className="text-[42px] font-bold leading-[46.2px] tracking-[-1.68px] text-[#0d0d0f]">
               {t.caseStudyUi.roadmap}
@@ -184,7 +185,7 @@ export function CaseStudyPage({ study }: { study: CaseStudyContent }) {
           </div>
         </section>
 
-        <section className="bg-white pb-[60px]">
+        <section className="px-5 min-[810px]:px-10 min-[1440px]:px-[100px] bg-white pb-[60px]">
           <div className={RAIL}>
             <div className="flex flex-col gap-10 rounded-[12px] bg-[#161616] p-8 min-[810px]:p-16">
               <h2 className="text-[42px] font-bold leading-[46.2px] tracking-[-1.68px] text-white">

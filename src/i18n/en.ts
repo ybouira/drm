@@ -1,7 +1,7 @@
 export const en = {
   common: {
     language: "Language",
-    applyToBuild: "Apply to build",
+    applyToBuild: "Explore the current challenge",
     applyNow: "Apply now",
     applyNowArrow: "Apply now →",
     applyNowShort: "Apply",

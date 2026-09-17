@@ -3,7 +3,7 @@ import type { Messages } from "./en";
 export const it = {
   common: {
     language: "Lingua",
-    applyToBuild: "Candidati",
+    applyToBuild: "Esplora la sfida attuale",
     applyNow: "Candidati ora",
     applyNowArrow: "Candidati ora →",
     applyNowShort: "Candidati",

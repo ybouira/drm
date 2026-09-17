@@ -40,7 +40,7 @@ export function Navbar() {
           <div className="flex items-center gap-[14px] text-white">
             <LanguageToggle />
             <a
-              href="https://forms.fillout.com/t/cP5KQYqyDdus"
+              href="https://drommer-founder-program.lovable.app"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-[34px] items-center justify-center rounded-[5px] bg-white px-[20px] text-[14px] leading-[14px] font-semibold tracking-[-0.28px] text-black hover:bg-[#CCCCCC] transition-colors duration-200 ease-out"
